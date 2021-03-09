@@ -1,0 +1,23 @@
+<idea-plugin>
+    <idea-version since-build="193" until-build="211.*"/>
+    <id>PLUGIN</id>
+    <name>imc Dev Tools</name>
+    <vendor>lia-ghita</vendor>
+
+    <!-- Product and plugin compatibility requirements -->
+    <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
+    <description>Automates certain processes like meta tag creation, by generating needed SQL statements, assigning SQL statements for commit and creating bundles in Propadmin.  </description>
+
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <version>0.0.3</version>
+
+    <actions>
+        <group id="PLUGIN.HelloAction" text="IDT" description="IDT">
+            <add-to-group group-id="MainMenu" anchor="last" />
+            <action class="LaunchDevTools" id="Plugin.Action.LaunchDevTools" text="Launch imc Dev Tools" />
+
+        </group>
+    </actions>
+</idea-plugin>
