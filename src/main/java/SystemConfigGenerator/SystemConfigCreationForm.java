@@ -3,25 +3,16 @@ package SystemConfigGenerator;
 import LaunchDevTools.CustomSize;
 import PSIHelpers.PSIHelper;
 import Templates.BaseClassTemplate;
+import Templates.ConfigDAOClassTemplate;
 import Templates.SystemConfigFactoryTemplate;
-import com.intellij.openapi.application.Result;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.impl.softwrap.SoftWrapAppliancePlaces;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.xml.actions.xmlbeans.FileUtils;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -76,13 +67,15 @@ public class SystemConfigCreationForm {
             String baseClass=textField1.getText();
             String baseClassContent = BaseClassTemplate.fillTemplate(baseClass,options);
             String daoClass = baseClass+"ConfigDAOImpl";
+            String daoClassContent = ConfigDAOClassTemplate.fillTemplate(baseClass, options);
             String factoryClass=daoClass+"Factory";
             String factoryClassContent = SystemConfigFactoryTemplate.fillTemplate(baseClass,factoryClass);
             String configClass=baseClass+"Config";
-            PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
-           PsiFile base= PSIHelper.createFileInDirectory(dir,baseClass+".java",baseClassContent, "JAVA");
 
-            PSIHelper.createFileInDirectory(dir,daoClass+".java","blablabla", "JAVA");
+            PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
+            PsiFile base= PSIHelper.createFileInDirectory(dir,baseClass+".java",baseClassContent, "JAVA");
+
+            PsiFile daoFile = PSIHelper.createFileInDirectory(dir,daoClass+".java",daoClassContent, "JAVA");
             PsiFile factory=PSIHelper.createFileInDirectory(dir,factoryClass+".java",factoryClassContent, "JAVA");
         /*    OpenFileDescriptor descriptor = new OpenFileDescriptor(p, factory.getVirtualFile());
             descriptor.navigateInEditor(p, true);*/
