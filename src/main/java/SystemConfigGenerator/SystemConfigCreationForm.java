@@ -2,6 +2,7 @@ package SystemConfigGenerator;
 
 import LaunchDevTools.CustomSize;
 import PSIHelpers.PSIHelper;
+import Templates.BaseClassTemplate;
 import Templates.SystemConfigFactoryTemplate;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -21,16 +22,21 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class SystemConfigCreationForm {
     private JTextField textField1;
     private JButton addSectionButton;
     private JComboBox comboBox1;
-    private JTextField textField2;
-    private JButton addButton;
-    private JComboBox comboBox2;
+    private JTextField optionTitle;
+    private JButton addToListOfButton;
+    private JComboBox optionType;
     private JPanel panel;
+    private JTextField typeTextField;
+    private List<ConfigOption> options = new ArrayList<>();
+
 
     public SystemConfigCreationForm(){
 
@@ -44,6 +50,18 @@ public class SystemConfigCreationForm {
         jf.setContentPane(panel);
         //  jf.pack();
         jf.setVisible(true);
+
+        addToListOfButton.addActionListener(e -> {
+        String title =  optionTitle.getText();
+        ConfigOption.ConfigType type =ConfigOption.ConfigType.valueOf(typeTextField.getText());
+        ConfigOption configOption = new ConfigOption(title, type);
+        options.add(configOption);
+            JOptionPane.showMessageDialog(jf, "Option stored. Add all options before creating the config");
+        optionTitle.setText("");
+        typeTextField.setText("");
+        });
+
+
         addSectionButton.addActionListener(e -> {
             Project p = ProjectManager.getInstance().getDefaultProject();
             PsiFile file =null;
@@ -56,14 +74,18 @@ public class SystemConfigCreationForm {
 
           PsiDirectory dir= PSIHelper.createDirectory(directory, textField1.getText().toLowerCase(Locale.ROOT));
             String baseClass=textField1.getText();
+            String baseClassContent = BaseClassTemplate.fillTemplate(baseClass,options);
             String daoClass = baseClass+"ConfigDAOImpl";
             String factoryClass=daoClass+"Factory";
             String factoryClassContent = SystemConfigFactoryTemplate.fillTemplate(baseClass,factoryClass);
             String configClass=baseClass+"Config";
             PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
-            PSIHelper.createFileInDirectory(dir,baseClass+".java","blablabla", "JAVA");
+           PsiFile base= PSIHelper.createFileInDirectory(dir,baseClass+".java",baseClassContent, "JAVA");
+
             PSIHelper.createFileInDirectory(dir,daoClass+".java","blablabla", "JAVA");
-            PSIHelper.createFileInDirectory(dir,factoryClass+".java",factoryClassContent, "JAVA");
+            PsiFile factory=PSIHelper.createFileInDirectory(dir,factoryClass+".java",factoryClassContent, "JAVA");
+        /*    OpenFileDescriptor descriptor = new OpenFileDescriptor(p, factory.getVirtualFile());
+            descriptor.navigateInEditor(p, true);*/
 
 
         });
