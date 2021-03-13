@@ -3,6 +3,7 @@ package LaunchDevTools;
 import MetaTagGenerator.Form;
 import MetaTagGenerator.MetaTagCreationForm;
 //import com.bulenkov.iconloader.IconLoader;
+import SystemConfigGenerator.SystemConfigCreationForm;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -17,7 +18,7 @@ public class MainMenuForm {
     private JPanel panel;
     private JLabel title;
     private JButton createNewMetaTag;
-    private JButton button2;
+    private JButton createSystemConfig;
     private JButton adminLogin;
 
 public MainMenuForm() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
@@ -40,8 +41,12 @@ public MainMenuForm() throws ClassNotFoundException, UnsupportedLookAndFeelExcep
         createNewMetaTag.addActionListener(e -> {
             MetaTagCreationForm newForm = new MetaTagCreationForm();
             jf.dispose();
-        });
 
+        });
+    createSystemConfig.addActionListener(e -> {
+        SystemConfigCreationForm newForm = new SystemConfigCreationForm();
+        jf.dispose();
+    });
     }
 
 

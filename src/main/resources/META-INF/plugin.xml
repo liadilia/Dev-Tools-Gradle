@@ -10,14 +10,15 @@
 
 
     <depends>com.intellij.modules.platform</depends>
+    <!--  <depends>com.intellij.modules.java</depends>-->
 
-    <version>0.0.3</version>
+     <version>0.0.3</version>
 
-    <actions>
-        <group id="PLUGIN.HelloAction" text="IDT" description="IDT">
-            <add-to-group group-id="MainMenu" anchor="last" />
-            <action class="LaunchDevTools" id="Plugin.Action.LaunchDevTools" text="Launch imc Dev Tools" />
+     <actions>
+         <group id="PLUGIN.HelloAction" text="IDT" description="IDT">
+             <add-to-group group-id="MainMenu" anchor="last" />
+             <action class="LaunchDevTools" id="Plugin.Action.LaunchDevTools" text="Launch imc Dev Tools" />
 
-        </group>
-    </actions>
-</idea-plugin>
+         </group>
+     </actions>
+ </idea-plugin>
