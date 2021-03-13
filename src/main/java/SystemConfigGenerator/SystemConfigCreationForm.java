@@ -2,6 +2,7 @@ package SystemConfigGenerator;
 
 import LaunchDevTools.CustomSize;
 import PSIHelpers.PSIHelper;
+import Templates.SystemConfigFactoryTemplate;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.impl.softwrap.SoftWrapAppliancePlaces;
@@ -57,11 +58,12 @@ public class SystemConfigCreationForm {
             String baseClass=textField1.getText();
             String daoClass = baseClass+"ConfigDAOImpl";
             String factoryClass=daoClass+"Factory";
+            String factoryClassContent = SystemConfigFactoryTemplate.fillTemplate(baseClass,factoryClass);
             String configClass=baseClass+"Config";
             PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
             PSIHelper.createFileInDirectory(dir,baseClass+".java","blablabla", "JAVA");
             PSIHelper.createFileInDirectory(dir,daoClass+".java","blablabla", "JAVA");
-            PSIHelper.createFileInDirectory(dir,factoryClass+".java","blablabla", "JAVA");
+            PSIHelper.createFileInDirectory(dir,factoryClass+".java",factoryClassContent, "JAVA");
 
 
         });
