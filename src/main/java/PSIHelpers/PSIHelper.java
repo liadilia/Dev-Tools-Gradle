@@ -1,20 +1,20 @@
 package PSIHelpers;
 
+import com.intellij.lang.Language;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.search.FilenameIndex;
-import com.intellij.javaee.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.text.StringTokenizer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+
+import static com.intellij.psi.search.FilenameIndex.getFilesByName;
 
 public class PSIHelper {
 
@@ -31,7 +31,7 @@ public class PSIHelper {
         @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
 
         Project project = p[0];
-        final PsiFile[] files = FilenameIndex.getFilesByName(project, filename, GlobalSearchScope.allScope(project));
+        final PsiFile[] files = getFilesByName(project, filename, GlobalSearchScope.allScope(project));
         if (files != null && files.length > 0) {
             PsiFile file = files[0];
 
@@ -86,4 +86,34 @@ public class PSIHelper {
         }
         return parent;
     } // createPackage()
+
+    public static PsiFile getDirectoryByName(Project p, String name){
+
+      PsiFile[] files= getFilesByName(p, name, GlobalSearchScope.projectScope(p));
+      if (files[0].isDirectory())
+      return files[0];
+      else return null;
+    }
+    public static void createFile(Project p, String name){
+        PsiFileFactory fileFactory = PsiFileFactory.getInstance(p);
+        PsiFile file = fileFactory.createFileFromText(name, Language.ANY,"blabla");
+
+
+    }
+
+    public static PsiFile createFromTemplate(final PsiDirectory directory, String name) throws IncorrectOperationException {
+
+        final PsiFile currentFile = directory.findFile(name);
+        if (currentFile != null) {
+           return currentFile;
+        }
+        final PsiFileFactory factory = PsiFileFactory.getInstance(directory.getProject());
+
+
+        String content = "bla bla";
+
+        final PsiFile file = factory.createFileFromText(name, Language.findLanguageByID("JAVA"), content);
+       return (PsiFile) directory.add(file);
+    }
+
 }

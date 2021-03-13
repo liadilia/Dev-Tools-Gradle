@@ -55,8 +55,9 @@ public class SystemConfigCreationForm {
 
             final PsiDirectory directory = file.getContainingDirectory();
 
-           PSIHelper.createDirectory(directory, textField1.getText());
 
+          PsiDirectory dir= PSIHelper.createDirectory(directory, textField1.getText());
+PSIHelper.createFromTemplate(dir,"test.java");
         });
     }
 }
