@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.sql.SQLOutput;
+import java.util.Locale;
 
 public class SystemConfigCreationForm {
     private JTextField textField1;
@@ -44,20 +45,25 @@ public class SystemConfigCreationForm {
         jf.setVisible(true);
         addSectionButton.addActionListener(e -> {
             Project p = ProjectManager.getInstance().getDefaultProject();
-            System.out.println(p);
-
             PsiFile file =null;
-            final PsiFile[] files = FilenameIndex.getFilesByName(p, "testClass.java", GlobalSearchScope.allScope(p));
-
-
+            final PsiFile[] files = FilenameIndex.getFilesByName(p, "SystemConfiguration.java", GlobalSearchScope.allScope(p));
             if (files != null && files.length > 0) {
                 file = files[0];}
 
             final PsiDirectory directory = file.getContainingDirectory();
 
 
-          PsiDirectory dir= PSIHelper.createDirectory(directory, textField1.getText());
-PSIHelper.createFromTemplate(dir,"test.java");
+          PsiDirectory dir= PSIHelper.createDirectory(directory, textField1.getText().toLowerCase(Locale.ROOT));
+            String baseClass=textField1.getText();
+            String daoClass = baseClass+"ConfigDAOImpl";
+            String factoryClass=daoClass+"Factory";
+            String configClass=baseClass+"Config";
+            PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
+            PSIHelper.createFileInDirectory(dir,baseClass+".java","blablabla", "JAVA");
+            PSIHelper.createFileInDirectory(dir,daoClass+".java","blablabla", "JAVA");
+            PSIHelper.createFileInDirectory(dir,factoryClass+".java","blablabla", "JAVA");
+
+
         });
     }
 }

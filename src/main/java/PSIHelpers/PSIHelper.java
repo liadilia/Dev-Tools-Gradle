@@ -88,12 +88,14 @@ public class PSIHelper {
     } // createPackage()
 
     public static PsiFile getDirectoryByName(Project p, String name){
-
-      PsiFile[] files= getFilesByName(p, name, GlobalSearchScope.projectScope(p));
+//Not functional yet
+      PsiFile[] files= getFilesByName(p,name, GlobalSearchScope.allScope(p));
+      System.out.println(files[0].getName());
       if (files[0].isDirectory())
       return files[0];
       else return null;
     }
+
     public static void createFile(Project p, String name){
         PsiFileFactory fileFactory = PsiFileFactory.getInstance(p);
         PsiFile file = fileFactory.createFileFromText(name, Language.ANY,"blabla");
@@ -101,7 +103,7 @@ public class PSIHelper {
 
     }
 
-    public static PsiFile createFromTemplate(final PsiDirectory directory, String name) throws IncorrectOperationException {
+    public static PsiFile createFileInDirectory(final PsiDirectory directory, String name, String content, String language) throws IncorrectOperationException {
 
         final PsiFile currentFile = directory.findFile(name);
         if (currentFile != null) {
@@ -110,9 +112,9 @@ public class PSIHelper {
         final PsiFileFactory factory = PsiFileFactory.getInstance(directory.getProject());
 
 
-        String content = "bla bla";
+       // String content = "bla bla";
 
-        final PsiFile file = factory.createFileFromText(name, Language.findLanguageByID("JAVA"), content);
+        final PsiFile file = factory.createFileFromText(name, Language.findLanguageByID(language), content);
        return (PsiFile) directory.add(file);
     }
 
