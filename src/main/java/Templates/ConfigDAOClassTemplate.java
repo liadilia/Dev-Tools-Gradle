@@ -54,9 +54,65 @@ public class ConfigDAOClassTemplate {
     sb.append("\n}");
     sb.append("\n}");
 
+    sb.append("@Override\n");
+    sb.append("  public void setParameter(final Configuration configuration, final String name, final String value) {\n");
+    sb.append(" final ");
+    sb.append(category);
+    sb.append(" ");
+    sb.append(category.toLowerCase(Locale.ROOT));
+    sb.append(" = configuration.get");
+    sb.append(category);
+    sb.append("();\n");
+    sb.append(" switch (name) {\n");
+    for (ConfigOption option:options){
+        sb.append(" case \"");
+        sb.append(category.toLowerCase());
+        sb.append(".");
+        sb.append(option.getTitle());
+        sb.append("\":\n");
+        sb.append(category.toLowerCase());
+        sb.append(".");
+        sb.append("set");
+        sb.append(option.getTitle());
+        sb.append("(value);\nbreak;\n");
+    }
+    sb.append("default:\n");
+    sb.append(" LOGGER.error(\"Unknown parameter, {} : {}\", name, value);\n");
+    sb.append("break;\n}\n}\n");
 
+    sb.append("@Override\n");
+    sb.append(" public List<ConfigurationParameter> getParameters(final Configuration configuration) {\n");
+    sb.append("  final List<ConfigurationParameter> parameters = new ArrayList<>();\n");
+    sb.append("final ");
+    sb.append(category);
+    sb.append(" ");
+    sb.append(category.toLowerCase());
+    sb.append(" = configuration.get");
+    sb.append(category);
+    sb.append("();\n");
+
+    sb.append("if (");
+    sb.append(category.toLowerCase());
+    sb.append(" != null) {\n");
+
+    for(ConfigOption option:options){
+
+        sb.append("parameters.add(new ConfigurationParameter(\"");
+        sb.append(category.toLowerCase());
+        sb.append(".");
+        sb.append(option.getTitle());
+        sb.append("\", ");
+        sb.append(category.toLowerCase());
+        sb.append(".get");
+        sb.append(option.getTitle());
+        sb.append("()));\n");
+    }
+    sb.append("\n}\n");
+    sb.append("return parameters;\n");
+        sb.append("\n}");
 
     sb.append("\n}");
+
         return sb.toString();
     }
 
@@ -65,59 +121,3 @@ public class ConfigDAOClassTemplate {
 
 }
 
-
-/*
-
-
-
-    @Override
-    public void setParameter(final Configuration configuration, final String name, final String value) {
-        final Shopify shopify = configuration.getShopify();
-        switch (name) {
-            case "shopify.baseUrl":
-                shopify.setBaseUrl(value);
-                break;
-            case "shopify.apiVersion":
-                shopify.setApiVersion(value);
-                break;
-            case "shopify.apiUser":
-                shopify.setApiUser(value);
-                break;
-            case "shopify.apiPassword":
-                shopify.setApiPassword(value);
-                break;
-            case "shopify.apiSecret":
-                shopify.setApiSecret(value);
-                break;
-            case "shopify.apiProductGetPath":
-                shopify.setApiProductGetPath(value);
-                break;
-            case "shopify.apiProductPostPath":
-                shopify.setApiProductPostPath(value);
-                break;
-            case "shopify.apiProductPutPath":
-                shopify.setApiProductPutPath(value);
-                break;
-            default:
-                LOGGER.error("Unknown parameter, {} : {}", name, value);
-                break;
-        }
-    }
-
-    @Override
-    public List<ConfigurationParameter> getParameters(final Configuration configuration) {
-        final List<ConfigurationParameter> parameters = new ArrayList<>();
-        final Shopify shopify = configuration.getShopify();
-        if (shopify != null) {
-            parameters.add(new ConfigurationParameter("shopify.baseUrl", shopify.getBaseUrl()));
-            parameters.add(new ConfigurationParameter("shopify.apiVersion", shopify.getApiVersion()));
-            parameters.add(new ConfigurationParameter("shopify.apiUser", shopify.getApiUser()));
-            parameters.add(new ConfigurationParameter("shopify.apiPassword", shopify.getApiPassword()));
-            parameters.add(new ConfigurationParameter("shopify.apiSecret", shopify.getApiSecret()));
-            parameters.add(new ConfigurationParameter("shopify.apiProductGetPath", shopify.getApiProductGetPath()));
-            parameters.add(new ConfigurationParameter("shopify.apiProductPostPath", shopify.getApiProductPostPath()));
-            parameters.add(new ConfigurationParameter("shopify.apiProductPutPath", shopify.getApiProductPutPath()));
-        }
-        return parameters;
-    }
-}*/
