@@ -79,7 +79,9 @@ public class SystemConfigCreationForm {
             PsiFile factory=PSIHelper.createFileInDirectory(dir,factoryClass+".java",factoryClassContent, "JAVA");
         /*    OpenFileDescriptor descriptor = new OpenFileDescriptor(p, factory.getVirtualFile());
             descriptor.navigateInEditor(p, true);*/
-
+            PsiFile configTypeClass=  PSIHelper.getContainingFileForClass("ConfigurationType");
+            String data = baseClass.toUpperCase()+"(<increment here and correct semicolon above>,\""+baseClass.toLowerCase()+"\");\n";
+            PSIHelper.appendFileAfterOccurence(configTypeClass,data, "private" );
 
         });
     }

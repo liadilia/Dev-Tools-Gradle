@@ -4,9 +4,11 @@ import com.intellij.lang.Language;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.text.StringTokenizer;
@@ -57,6 +59,36 @@ public class PSIHelper {
         }
 
     }
+
+
+    public static void appendFileAfterOccurence(PsiFile file, String data, String landmark){
+        @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
+        Project project = p[0];
+        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, file.getVirtualFile());
+        StringBuilder src = new StringBuilder(file.getText());
+        int i = src.indexOf(landmark,0);
+        src.insert(i,data );
+        try {
+            descriptor.getFile().setBinaryContent(src.toString().getBytes("utf-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void appendFileWithElement(PsiFile file, String data, String insertBeforeLastOccurenceOf){
+        @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
+        Project project = p[0];
+
+   VirtualFile vFile= file.getVirtualFile();
+
+
+    }
+
+
+
+
+
 
     public static PsiDirectory createDirectory(PsiDirectory parent, String name)
             throws IncorrectOperationException {
@@ -116,6 +148,29 @@ public class PSIHelper {
 
         final PsiFile file = factory.createFileFromText(name, Language.findLanguageByID(language), content);
        return (PsiFile) directory.add(file);
+    }
+
+
+
+    public static PsiFile getContainingFileForClass(String fqn) {
+        String filename = fqn;
+        if (fqn.contains(".")) {
+            filename = fqn.substring(fqn.lastIndexOf('.') + 1);
+        }
+        if (filename.contains("$")) {
+            filename = filename.substring(0, filename.indexOf('$'));
+        }
+        filename += ".java";
+        Project[] p = ProjectManager.getInstance().getOpenProjects();
+
+        Project project = p[0];
+        final PsiFile[] files = FilenameIndex.getFilesByName(project, filename, GlobalSearchScope.allScope(project));
+        if (files != null && files.length > 0) {
+            PsiFile file = files[0];
+
+            return files[0];
+        }
+        return null;
     }
 
 }
