@@ -56,14 +56,16 @@ public class SystemConfigCreationForm {
         addSectionButton.addActionListener(e -> {
             Project p = ProjectManager.getInstance().getDefaultProject();
             PsiFile file =null;
+
+            //Identify the System Configuration directory by finding the directory where the SystemConfiguration class is located, as PsiDirectory does not have a method to fetch directory by name
             final PsiFile[] files = FilenameIndex.getFilesByName(p, "SystemConfiguration.java", GlobalSearchScope.allScope(p));
             if (files != null && files.length > 0) {
                 file = files[0];}
 
             final PsiDirectory directory = file.getContainingDirectory();
 
-
-          PsiDirectory dir= PSIHelper.createDirectory(directory, textField1.getText().toLowerCase(Locale.ROOT));
+           // Create the new directory
+           PsiDirectory dir= PSIHelper.createDirectory(directory, textField1.getText().toLowerCase(Locale.ROOT));
             String baseClass=textField1.getText();
             String baseClassContent = BaseClassTemplate.fillTemplate(baseClass,options);
             String daoClass = baseClass+"ConfigDAOImpl";
@@ -73,15 +75,45 @@ public class SystemConfigCreationForm {
             String configClass=baseClass+"Config";
 
             PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
+
+            //Create the setting files
             PsiFile base= PSIHelper.createFileInDirectory(dir,baseClass+".java",baseClassContent, "JAVA");
 
             PsiFile daoFile = PSIHelper.createFileInDirectory(dir,daoClass+".java",daoClassContent, "JAVA");
             PsiFile factory=PSIHelper.createFileInDirectory(dir,factoryClass+".java",factoryClassContent, "JAVA");
-        /*    OpenFileDescriptor descriptor = new OpenFileDescriptor(p, factory.getVirtualFile());
-            descriptor.navigateInEditor(p, true);*/
-            PsiFile configTypeClass=  PSIHelper.getContainingFileForClass("ConfigurationType");
-            String data = baseClass.toUpperCase()+"(<increment here and correct semicolon above>,\""+baseClass.toLowerCase()+"\");\n";
+
+            // Append the ConfigurationType class
+            PsiFile configTypeClass=  PSIHelper.getContainingFile("ConfigurationType");
+            String data = baseClass.toUpperCase()+"(<increment here and correct semicolon above>,\""+baseClass.toLowerCase()+"\");\n\n";
             PSIHelper.appendFileAfterOccurence(configTypeClass,data, "private" );
+
+            // Append the Configuration class
+            PsiFile generalConfigClass=  PSIHelper.getContainingFile("Configuration");
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n public ");
+            sb.append(baseClass);
+            sb.append(" get");
+            sb.append(baseClass);
+            sb.append("() {\n");
+            sb.append(" return ");
+            sb.append(baseClass.toLowerCase());
+            sb.append(";\n}\n");
+            sb.append("\n public void ");
+            sb.append(baseClass);
+            sb.append(" set");
+            sb.append(baseClass);
+            sb.append("() {\n");
+            sb.append(" this.");
+            sb.append(baseClass.toLowerCase());
+            sb.append(" = ");
+            sb.append(baseClass.toLowerCase());
+            sb.append(";\n}\n");
+
+            String data2 = "private "+baseClass+" "+baseClass.toLowerCase()+";\n";
+            PSIHelper.appendFile(generalConfigClass,data2, " Timestamp getLoaded()" );
+
+            PSIHelper.appendFile(generalConfigClass, sb.toString(),"}");
 
         });
     }

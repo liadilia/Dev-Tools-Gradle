@@ -1,6 +1,8 @@
 package PSIHelpers;
 
 import com.intellij.lang.Language;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
@@ -48,14 +50,22 @@ public class PSIHelper {
     public static void appendFile(PsiFile file, String data, String insertBeforeLastOccurenceOf){
         @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
         Project project = p[0];
-        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, file.getVirtualFile());
+        VirtualFile vFile=file.getVirtualFile();
+        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, vFile);
+        descriptor.navigateInEditor(project, true);
         StringBuilder src = new StringBuilder(file.getText());
         int i = src.lastIndexOf(insertBeforeLastOccurenceOf);
         src.insert(i,data );
         try {
-            descriptor.getFile().setBinaryContent(src.toString().getBytes("utf-8"));
+            vFile.setBinaryContent(src.toString().getBytes("utf-8"));
+           
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
+        Document document = fileDocumentManager.getDocument(vFile);
+        if (document != null) {
+            fileDocumentManager.saveDocument(document);
         }
 
     }
@@ -75,18 +85,6 @@ public class PSIHelper {
         }
 
     }
-
-    public static void appendFileWithElement(PsiFile file, String data, String insertBeforeLastOccurenceOf){
-        @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
-        Project project = p[0];
-
-   VirtualFile vFile= file.getVirtualFile();
-
-
-    }
-
-
-
 
 
 
@@ -152,7 +150,7 @@ public class PSIHelper {
 
 
 
-    public static PsiFile getContainingFileForClass(String fqn) {
+    public static PsiFile getContainingFileInDir(String fqn, PsiDirectory dir) {
         String filename = fqn;
         if (fqn.contains(".")) {
             filename = fqn.substring(fqn.lastIndexOf('.') + 1);
@@ -165,12 +163,57 @@ public class PSIHelper {
 
         Project project = p[0];
         final PsiFile[] files = FilenameIndex.getFilesByName(project, filename, GlobalSearchScope.allScope(project));
+        PsiFile file = files[0];
+        if (files != null && files.length > 0) {
+            boolean foundMatch = false;
+            for (int i=0; i<files.length; i++){
+                file=files[i];
+         //       if (file.getContainingDirectory()!= dir){
+                if (file.getContainingDirectory().equals(dir)){
+                    System.out.println(file.getContainingDirectory());
+                    System.out.println(dir);
+                    foundMatch=true;
+                    break;
+                } else {
+                    foundMatch=false;
+
+                }
+
+
+            }
+         if (foundMatch)  {
+             System.out.println("I returned"+file.getContainingDirectory());
+             return file;
+         }
+
+
+        }
+        return null;
+    }
+
+    public static PsiFile getContainingFile(String fqn) {
+        String filename = fqn;
+        if (fqn.contains(".")) {
+            filename = fqn.substring(fqn.lastIndexOf('.') + 1);
+        }
+        if (filename.contains("$")) {
+            filename = filename.substring(0, filename.indexOf('$'));
+        }
+        filename += ".java";
+        Project[] p = ProjectManager.getInstance().getOpenProjects();
+
+        Project project = p[0];
+        final PsiFile[] files = FilenameIndex.getFilesByName(project, filename, GlobalSearchScope.allScope(project));
+
         if (files != null && files.length > 0) {
             PsiFile file = files[0];
 
-            return files[0];
-        }
+                return file;
+            }
+
         return null;
+
+
     }
 
 }
