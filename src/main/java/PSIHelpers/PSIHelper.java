@@ -57,13 +57,20 @@ public class PSIHelper {
         StringBuilder src = new StringBuilder(file.getText());
         int i = src.lastIndexOf(insertBeforeLastOccurenceOf);
         src.insert(i,data );
-        try {
-            vFile.setBinaryContent(src.toString().getBytes("utf-8"));
-          System.out.println(file.getNode().getChildren(null)) ;
+        WriteCommandAction.runWriteCommandAction(project, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    vFile.setBinaryContent(src.toString().getBytes("utf-8"));
+                    System.out.println(file.getNode().getChildren(null)) ;
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
         Document document = fileDocumentManager.getDocument(vFile);
         PsiDocumentManager manager = PsiDocumentManager.getInstance(project);
@@ -150,8 +157,14 @@ public class PSIHelper {
                 styleManager.reformat(file);
             }
         });
-
-       return (PsiFile) directory.add(file);
+        final PsiFile[] psifile = {null};
+        WriteCommandAction.runWriteCommandAction(project, new Runnable() {
+            @Override
+            public void run() {
+                 psifile[0] = (PsiFile) directory.add(file);
+            }
+        });
+        return psifile[0];
     }
 
 
