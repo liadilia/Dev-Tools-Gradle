@@ -1,15 +1,16 @@
 package PSIHelpers;
 
 import com.intellij.lang.Language;
+import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.*;
+import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
@@ -58,7 +59,8 @@ public class PSIHelper {
         src.insert(i,data );
         try {
             vFile.setBinaryContent(src.toString().getBytes("utf-8"));
-           
+          System.out.println(file.getNode().getChildren(null)) ;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,6 +82,16 @@ public class PSIHelper {
         src.insert(i,data );
         try {
             descriptor.getFile().setBinaryContent(src.toString().getBytes("utf-8"));
+            FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
+            Document document = fileDocumentManager.getDocument(descriptor.getFile());
+            if (document != null) {
+                fileDocumentManager.saveDocument(document);
+            }
+            PsiDocumentManager manager = PsiDocumentManager.getInstance(project);
+            manager.commitDocument(document);
+            CodeStyleManager styleManager = CodeStyleManager.getInstance(project);
+
+            styleManager.reformat(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,17 +146,23 @@ public class PSIHelper {
     }
 
     public static PsiFile createFileInDirectory(final PsiDirectory directory, String name, String content, String language) throws IncorrectOperationException {
-
+        @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
+        Project project = p[0];
         final PsiFile currentFile = directory.findFile(name);
         if (currentFile != null) {
            return currentFile;
         }
         final PsiFileFactory factory = PsiFileFactory.getInstance(directory.getProject());
 
-
-       // String content = "bla bla";
-
         final PsiFile file = factory.createFileFromText(name, Language.findLanguageByID(language), content);
+        CodeStyleManager styleManager = CodeStyleManager.getInstance(project);
+        WriteCommandAction.runWriteCommandAction(project, new Runnable() {
+            @Override
+            public void run() {
+                styleManager.reformat(file);
+            }
+        });
+
        return (PsiFile) directory.add(file);
     }
 
