@@ -66,9 +66,8 @@ public class PSIHelper {
         }
         FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
         Document document = fileDocumentManager.getDocument(vFile);
-        if (document != null) {
-            fileDocumentManager.saveDocument(document);
-        }
+        PsiDocumentManager manager = PsiDocumentManager.getInstance(project);
+        manager.commitDocument(document);
 
     }
 
@@ -80,21 +79,26 @@ public class PSIHelper {
         StringBuilder src = new StringBuilder(file.getText());
         int i = src.indexOf(landmark,0);
         src.insert(i,data );
-        try {
-            descriptor.getFile().setBinaryContent(src.toString().getBytes("utf-8"));
-            FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
-            Document document = fileDocumentManager.getDocument(descriptor.getFile());
-            if (document != null) {
-                fileDocumentManager.saveDocument(document);
-            }
-            PsiDocumentManager manager = PsiDocumentManager.getInstance(project);
-            manager.commitDocument(document);
-            CodeStyleManager styleManager = CodeStyleManager.getInstance(project);
+        WriteCommandAction.runWriteCommandAction(project, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    descriptor.getFile().setBinaryContent(src.toString().getBytes("utf-8"));
+                    FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
+                    Document document = fileDocumentManager.getDocument(descriptor.getFile());
+                    if (document != null) {
+                        fileDocumentManager.saveDocument(document);
+                    }
+                    PsiDocumentManager manager = PsiDocumentManager.getInstance(project);
+                    manager.commitDocument(document);
+                    CodeStyleManager styleManager = CodeStyleManager.getInstance(project);
 
-            styleManager.reformat(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    styleManager.reformat(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -102,48 +106,30 @@ public class PSIHelper {
 
     public static PsiDirectory createDirectory(PsiDirectory parent, String name)
             throws IncorrectOperationException {
-        PsiDirectory result = null;
+        Project p = ProjectManager.getInstance().getDefaultProject();
+        final PsiDirectory[] result = {null};
 
         for (PsiDirectory dir : parent.getSubdirectories()) {
             if (dir.getName().equalsIgnoreCase(name)) {
-                result = dir;
+                result[0] = dir;
                 break;
             }
         }
 
-        if (null == result) {
-            result = parent.createSubdirectory(name);
+        if (null == result[0]) {
+            WriteCommandAction.runWriteCommandAction(p, new Runnable() {
+                @Override
+                public void run() {
+                    result[0] = parent.createSubdirectory(name);
+                }
+            });
+
         }
 
-        return result;
+        return result[0];
     } // createDirectory()
 
-    public static PsiDirectory createPackage(PsiDirectory sourceDir, String qualifiedPackage)
-            throws IncorrectOperationException {
-        PsiDirectory parent = sourceDir;
-        StringTokenizer token = new StringTokenizer(qualifiedPackage, ".");
-        while (token.hasMoreTokens()) {
-            String dirName = token.nextToken();
-            parent = createDirectory(parent, dirName);
-        }
-        return parent;
-    } // createPackage()
 
-    public static PsiFile getDirectoryByName(Project p, String name){
-//Not functional yet
-      PsiFile[] files= getFilesByName(p,name, GlobalSearchScope.allScope(p));
-      System.out.println(files[0].getName());
-      if (files[0].isDirectory())
-      return files[0];
-      else return null;
-    }
-
-    public static void createFile(Project p, String name){
-        PsiFileFactory fileFactory = PsiFileFactory.getInstance(p);
-        PsiFile file = fileFactory.createFileFromText(name, Language.ANY,"blabla");
-
-
-    }
 
     public static PsiFile createFileInDirectory(final PsiDirectory directory, String name, String content, String language) throws IncorrectOperationException {
         @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
@@ -155,6 +141,8 @@ public class PSIHelper {
         final PsiFileFactory factory = PsiFileFactory.getInstance(directory.getProject());
 
         final PsiFile file = factory.createFileFromText(name, Language.findLanguageByID(language), content);
+
+        //format the code
         CodeStyleManager styleManager = CodeStyleManager.getInstance(project);
         WriteCommandAction.runWriteCommandAction(project, new Runnable() {
             @Override
@@ -233,5 +221,55 @@ public class PSIHelper {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static PsiDirectory createPackage(PsiDirectory sourceDir, String qualifiedPackage)
+            throws IncorrectOperationException {
+        PsiDirectory parent = sourceDir;
+        StringTokenizer token = new StringTokenizer(qualifiedPackage, ".");
+        while (token.hasMoreTokens()) {
+            String dirName = token.nextToken();
+            parent = createDirectory(parent, dirName);
+        }
+        return parent;
+    } // createPackage()
+
+    public static PsiFile getDirectoryByName(Project p, String name){
+//Not functional yet
+        PsiFile[] files= getFilesByName(p,name, GlobalSearchScope.allScope(p));
+        System.out.println(files[0].getName());
+        if (files[0].isDirectory())
+            return files[0];
+        else return null;
+    }
+
+    public static void createFile(Project p, String name){
+        PsiFileFactory fileFactory = PsiFileFactory.getInstance(p);
+        PsiFile file = fileFactory.createFileFromText(name, Language.ANY,"blabla");
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -5,6 +5,7 @@ import PSIHelpers.PSIHelper;
 import Templates.BaseClassTemplate;
 import Templates.ConfigDAOClassTemplate;
 import Templates.SystemConfigFactoryTemplate;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiDirectory;
@@ -73,8 +74,13 @@ public class SystemConfigCreationForm {
             String factoryClass=daoClass+"Factory";
             String factoryClassContent = SystemConfigFactoryTemplate.fillTemplate(baseClass,factoryClass);
             String configClass=baseClass+"Config";
+            WriteCommandAction.runWriteCommandAction(p, new Runnable() {
+                @Override
+                public void run() {
+                    PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
+                }
+            });
 
-            PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
 
             //Create the setting files
             PsiFile base= PSIHelper.createFileInDirectory(dir,baseClass+".java",baseClassContent, "JAVA");
