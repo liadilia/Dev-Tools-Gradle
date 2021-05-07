@@ -74,11 +74,11 @@ public class UserDAO {
         String name="";
         try{
             Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement("select name from users where id=?");
+            PreparedStatement ps=con.prepareStatement("select username from users where id=?");
             ps.setString(1,uid);
             ResultSet rs=ps.executeQuery();
             while (rs.next()) {
-                name =rs.getString("name");
+                name =rs.getString("username");
             }
             con.close();
             //System.out.println(rs);

@@ -20,13 +20,14 @@ public class LoginForm {
     public LoginForm() throws ClassNotFoundException{
 
             JFrame f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        f.setBounds(CustomSize.width / 3, CustomSize.height / 8, 750, 800);
 
-
-            f.setTitle("Zuzu");
+            f.setTitle("imc Dev Tools");
 
             f.setJMenuBar(new JMenuBar());
             f.setContentPane(panel);
-            f.pack();
+            //f.pack();
             f.setVisible(true);
 
         }

@@ -43,7 +43,7 @@ public MainMenuForm() throws ClassNotFoundException{
 
     adminLogin.addActionListener(e -> {
 
-        System.out.println( UserDAO.getUserName("8"));
+        System.out.println( UserDAO.getUserName("1"));
         try {
             LoginForm lf = new LoginForm();
         } catch (ClassNotFoundException classNotFoundException) {
