@@ -17,19 +17,7 @@ public class LoginForm {
     private JButton cancelButton;
 
 
-    public static void main(String[] args) {
-        try {
-
-        //    UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme");
-         //   UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme");
-            UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme");
-
-         //   UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatGradiantoDeepOceanIJTheme");
-
-         //  UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme");
-       //     UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatMonocaiIJTheme");
-
-            LoginForm tlf = new LoginForm();
+    public LoginForm() throws ClassNotFoundException{
 
             JFrame f = new JFrame();
 
@@ -37,15 +25,12 @@ public class LoginForm {
             f.setTitle("Zuzu");
 
             f.setJMenuBar(new JMenuBar());
-            f.setContentPane(tlf.panel);
+            f.setContentPane(panel);
             f.pack();
             f.setVisible(true);
 
-        } catch (
-                Exception e) {
-            e.printStackTrace();
         }
     }
 
 
-}
+
