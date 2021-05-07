@@ -99,8 +99,6 @@ public class MetaTagActionsForm {
 
             AddSQLToJira.addActionListener(e -> {
                 try {
-                    //    System.out.println(JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql));
-                    //    System.out.println(JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee));
                     Connection createJiraSubTask = new Connection(JIRA_ISSUE_ROOT, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(JIRA_USER, JIRA_PASS));
                     String response = createJiraSubTask.getResponseObject().get("key").getAsString();
                     Connection assignTask = new Connection(JIRA_ISSUE_ROOT + response, Connection.Method.PUT, JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee), new BasicAuthorization(JIRA_USER, JIRA_PASS));

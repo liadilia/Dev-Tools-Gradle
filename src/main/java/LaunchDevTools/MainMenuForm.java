@@ -1,5 +1,6 @@
 package LaunchDevTools;
 
+import DB.UserDAO;
 import MetaTagGenerator.Form;
 import MetaTagGenerator.MetaTagCreationForm;
 //import com.bulenkov.iconloader.IconLoader;
@@ -21,20 +22,12 @@ public class MainMenuForm {
     private JButton createSystemConfig;
     private JButton adminLogin;
 
-public MainMenuForm() throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, IOException {
-
-        // UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme");
-    //    UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme");
+public MainMenuForm() throws ClassNotFoundException{
 
         JFrame jf = new JFrame();
         jf.setBounds(CustomSize.width / 3, CustomSize.height / 8, 750, 800);
-
         jf.setTitle("imc Dev Tools");
- //  Image icon = (Image)IconLoader.getIcon("/resources/META-INF/imc_logo.png");
- //       jf.setIconImage(icon);
-
         jf.setContentPane(panel);
-        //  jf.pack();
         jf.setVisible(true);
 
 
@@ -46,6 +39,12 @@ public MainMenuForm() throws ClassNotFoundException, UnsupportedLookAndFeelExcep
     createSystemConfig.addActionListener(e -> {
         SystemConfigCreationForm newForm = new SystemConfigCreationForm();
         jf.dispose();
+    });
+
+    adminLogin.addActionListener(e -> {
+
+        System.out.println( UserDAO.getUserName("8"));
+
     });
     }
 

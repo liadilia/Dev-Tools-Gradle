@@ -77,7 +77,7 @@ public class SystemConfigCreationForm {
             WriteCommandAction.runWriteCommandAction(p, new Runnable() {
                 @Override
                 public void run() {
-                    PSIHelper.createFileInDirectory(directory,configClass+".java","blablabla", "JAVA");
+                    PSIHelper.createFileInDirectory(directory,configClass+".java","test", "JAVA");
                 }
             });
 
