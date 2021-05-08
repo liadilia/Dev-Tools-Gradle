@@ -112,6 +112,10 @@ import java.awt.*;
             );
             contentPane.setLayout(gl_contentPane);
         }
+
+     public static void main(String[] args) {
+         WelcomeScreen ws = new WelcomeScreen();
+     }
     }
 
 

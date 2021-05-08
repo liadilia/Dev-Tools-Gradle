@@ -44,7 +44,7 @@ public class UserDAO {
         boolean status=false;
         try{
             Connection con=DBConnection.getConnection();
-            PreparedStatement ps=con.prepareStatement("select * from users where name=? and password like hashpass(?)");
+            PreparedStatement ps=con.prepareStatement("select * from users where username=? and password like hashpass(?)");
             ps.setString(1,name);
             ps.setString(2,password);
             ResultSet rs=ps.executeQuery();
