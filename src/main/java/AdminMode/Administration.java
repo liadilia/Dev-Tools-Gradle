@@ -7,6 +7,13 @@ import javax.swing.*;
 public class Administration {
     private JTextField metaTagIdTextField;
     private JPanel panel;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextField textField5;
+    private JButton saveButton;
+    private JButton button1;
 
     public Administration() throws ClassNotFoundException {
 
