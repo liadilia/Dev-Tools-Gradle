@@ -2,6 +2,7 @@ package MetaTagGenerator;
 
 import LaunchDevTools.CurrentUser;
 import LaunchDevTools.CustomSize;
+import LaunchDevTools.MainMenuForm;
 import REST.BasicAuthorization;
 import REST.Connection;
 import REST.Helpers.JiraRequestHelper;
@@ -77,9 +78,9 @@ public class MetaTagActionsForm {
                     String token = propadminAuth.getResponseObject().get("token").getAsString();
                     // compose the body for the call to create the bundles
                     String context = "Name of the meta tag";
-                    String metaTagName = PropadminRequestHelper.getBundleCreationRequestBody(Form.metaTagNameKey, Form.metaTagName, context);
+                    String metaTagName = PropadminRequestHelper.getBundleCreationRequestBody(MetaTagCreationForm.metaTagNameKey, MetaTagCreationForm.metaTagName, context);
                     context = "Description of the meta tag";
-                    String metaTagDescription = PropadminRequestHelper.getBundleCreationRequestBody(Form.metaTagDescriptionKey, Form.metaTagDescription, context);
+                    String metaTagDescription = PropadminRequestHelper.getBundleCreationRequestBody(MetaTagCreationForm.metaTagDescriptionKey, MetaTagCreationForm.metaTagDescription, context);
                     // POST request to create the Propadmin bundles
                     Connection createNameBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagName, new TokenAuthorization(token));
                     Connection createDescriptionBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagDescription, new TokenAuthorization(token));
@@ -116,6 +117,15 @@ public class MetaTagActionsForm {
 
             });
 
+            backButton.addActionListener(e -> {
+                try {
+                    MainMenuForm mmf = new MainMenuForm();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+                jf.dispose();
+
+            });
 
         }
         private String generateMetaTagIdEntry (String name, String ID){

@@ -1,6 +1,7 @@
 package MetaTagGenerator;
 
 import LaunchDevTools.CustomSize;
+import LaunchDevTools.MainMenuForm;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -166,6 +167,15 @@ public MetaTagCreationForm (){
 
             }
         });
+    backButton.addActionListener(e -> {
+        try {
+            MainMenuForm mmf = new MainMenuForm();
+        } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+        }
+        jf.dispose();
+
+    });
 
     }
 

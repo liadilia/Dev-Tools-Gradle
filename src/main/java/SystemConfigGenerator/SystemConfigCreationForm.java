@@ -1,6 +1,7 @@
 package SystemConfigGenerator;
 
 import LaunchDevTools.CustomSize;
+import LaunchDevTools.MainMenuForm;
 import PSIHelpers.PSIHelper;
 import Templates.BaseClassTemplate;
 import Templates.ConfigDAOClassTemplate;
@@ -21,12 +22,12 @@ import java.util.Locale;
 public class SystemConfigCreationForm {
     private JTextField textField1;
     private JButton addSectionButton;
-    private JComboBox comboBox1;
     private JTextField optionTitle;
     private JButton addToListOfButton;
     private JComboBox optionType;
     private JPanel panel;
     private JTextField typeTextField;
+    private JButton backButton;
     private List<ConfigOption> options = new ArrayList<>();
 
 
@@ -120,6 +121,16 @@ public class SystemConfigCreationForm {
             PSIHelper.appendFile(generalConfigClass,data2, " Timestamp getLoaded()" );
 
             PSIHelper.appendFile(generalConfigClass, sb.toString(),"}");
+
+        });
+
+        backButton.addActionListener(e -> {
+            try {
+                MainMenuForm mmf = new MainMenuForm();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+            jf.dispose();
 
         });
     }
