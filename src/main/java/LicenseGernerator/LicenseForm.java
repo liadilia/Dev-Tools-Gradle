@@ -1,17 +1,14 @@
 package LicenseGernerator;
 
 import LaunchDevTools.CustomSize;
-import LaunchDevTools.MainMenu;
+import LaunchDevTools.MainMenuForm;
 import MetaTagGenerator.ComboItem;
 import PSIHelpers.PSIHelper;
 import REST.Helpers.JiraRequestHelper;
-import REST.Helpers.PropadminRequestHelper;
 import com.intellij.psi.PsiFile;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -113,7 +110,11 @@ public class LicenseForm extends JFrame {
             btnBack.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(216, 191, 216), new Color(216, 191, 216), new Color(216, 191, 216), new Color(216, 191, 216)));
             btnBack.setBackground(new Color(216, 191, 216));
             btnBack.addActionListener(e -> {
-                    MainMenu mm = new MainMenu();
+                    try {
+                            MainMenuForm mm = new MainMenuForm();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                            classNotFoundException.printStackTrace();
+                    }
                     dispose();
             });
 
