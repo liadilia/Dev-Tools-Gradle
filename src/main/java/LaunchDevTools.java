@@ -10,8 +10,6 @@ import java.io.IOException;
 
 
 public class LaunchDevTools extends AnAction {
-
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
         try {
@@ -20,6 +18,5 @@ public class LaunchDevTools extends AnAction {
             e.printStackTrace();
         }
     }
-
 }
 

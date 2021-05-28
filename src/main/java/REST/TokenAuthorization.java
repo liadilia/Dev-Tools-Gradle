@@ -4,8 +4,7 @@ package REST;
 import java.net.HttpURLConnection;
 
 public class TokenAuthorization implements Connection.Authorization {
-    private String header;
-
+    private final String header;
     public TokenAuthorization(String token) {
         header = "Bearer " + token;
     }
@@ -13,6 +12,5 @@ public class TokenAuthorization implements Connection.Authorization {
     @Override
     public void addAuthorization(HttpURLConnection con) {
         con.setRequestProperty("Authorization", header);
-
     }
 }
