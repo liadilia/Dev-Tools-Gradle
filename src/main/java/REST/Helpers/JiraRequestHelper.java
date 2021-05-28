@@ -6,16 +6,14 @@ public class JiraRequestHelper {
 
     public static String getJiraSubTaskCreationRequestBody(String parentId, String description){
         JiraTask jt = new JiraTask(parentId, description);
-        String payload = new Gson().toJson(jt);
 
-        return payload;
+        return new Gson().toJson(jt);
     }
 
     public static String getJiraTaskAssignmentToUserBody(String assignee){
         TaskAssignment tA = new TaskAssignment(assignee);
-        String payload = new Gson().toJson(tA);
 
-        return payload;
+        return new Gson().toJson(tA);
     }
 
     public static class TaskAssignment{
