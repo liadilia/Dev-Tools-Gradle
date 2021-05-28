@@ -12,9 +12,9 @@ public class Bundle {
     public String createdBy;
     public boolean staysEmpty = false;
     public boolean isLocked = false;
-    public String component ="default";
-    public String part ="default";
-    public String services=":backend:";
+    public final String component ="default";
+    public final String part ="default";
+    public final String services=":backend:";
 
     public void addTranslation(Translations t) {
         if (translations == null) {

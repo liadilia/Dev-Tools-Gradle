@@ -29,14 +29,12 @@ public class PropadminRequestHelper {
      Bundle bundle = new Bundle (bundleKey,context,CurrentUser.email );
      bundle.addTranslation(new Bundle.Translations("English","en-GB",BundleTextInEnglish ));
      bundle.addTranslation(new Bundle.Translations("German", "de-DE",""));
-     String payload= new Gson().toJson(bundle);
-     return payload;
+     return new Gson().toJson(bundle);
     }
 
     public static String getAuthPayload (){
         Auth auth = new Auth(RestEndpoints.JIRA_USER,RestEndpoints.JIRA_PASS);
-       String x= new Gson().toJson(auth);
-       return x;
+        return new Gson().toJson(auth);
     }
 
 
