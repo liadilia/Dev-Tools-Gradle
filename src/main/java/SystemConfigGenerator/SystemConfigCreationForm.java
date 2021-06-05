@@ -82,10 +82,8 @@ public class SystemConfigCreationForm {
                 }
             });
 
-
             //Create the setting files
             PsiFile base= PSIHelper.createFileInDirectory(dir,baseClass+".java",baseClassContent, "JAVA");
-
             PsiFile daoFile = PSIHelper.createFileInDirectory(dir,daoClass+".java",daoClassContent, "JAVA");
             PsiFile factory=PSIHelper.createFileInDirectory(dir,factoryClass+".java",factoryClassContent, "JAVA");
 

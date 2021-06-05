@@ -1,7 +1,6 @@
 package Templates;
 
 import SystemConfigGenerator.ConfigOption;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -50,7 +49,6 @@ public class BaseClassTemplate {
         sb.append("}");
 
         return sb.toString();
-
 
     }
 }
