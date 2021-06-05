@@ -23,12 +23,10 @@ public class Bundle {
         translations.add(t);
 
     }
-
     public Bundle (String identifier, String context, String createdBy){
         this.identifier=identifier;
         this.context=context;
     }
-
     public static class Translations {
         public String language, code, value;
 

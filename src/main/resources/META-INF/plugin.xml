@@ -20,7 +20,6 @@
              <add-to-group group-id="MainMenu" anchor="last" />
              <action class="LaunchDevTools" id="Plugin.Action.LaunchDevTools" text="Launch imc Dev Tools" />
              <action class="LaunchAdminMode" id="Plugin.Action.AdminPanel" text="Dev Tools Admin" />
-
          </group>
      </actions>
  </idea-plugin>
