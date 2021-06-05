@@ -3,7 +3,7 @@ package REST.Helpers;
 //import sun.security.x509.IssuerAlternativeNameExtension;
 
 public class JiraTask {
-
+//https://developer.atlassian.com/server/jira/platform/jira-rest-api-example-create-issue-7897248/
     JiraTaskFields fields;
     public JiraTask(String parentKey, String description){
     this.fields = new JiraTaskFields(parentKey,description);
