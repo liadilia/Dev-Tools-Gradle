@@ -124,10 +124,12 @@ public class MetaTagActionsForm {
                         CurrentUser.jiraPassword = new String(pf.getPassword());
                     }
                 } else {
-                    Connection createJiraSubTask = null;
-                    System.out.println(JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql));
+                  //  Connection createJiraSubTask = null;
+
+                    int code=-1;
                 try {
-                    createJiraSubTask = new Connection(PluginConfigurationStrings.jiraIssueRoot, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(CurrentUser.email,CurrentUser.jiraPassword));
+                    Connection createJiraSubTask = new Connection(PluginConfigurationStrings.jiraIssueRoot, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(CurrentUser.email,CurrentUser.jiraPassword));
+                     code= createJiraSubTask.getResponseCode();
                         String response = createJiraSubTask.getResponseObject().get("key").getAsString();
                         Connection assignTask = new Connection(PluginConfigurationStrings.jiraIssueRoot + response, Connection.Method.PUT, JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee), new BasicAuthorization(CurrentUser.email, CurrentUser.jiraPassword));
 
@@ -140,7 +142,8 @@ public class MetaTagActionsForm {
                         }
                 } catch (IOException ioException) {
 
-                    JOptionPane.showMessageDialog(null, "The sub-task could not be created" );
+                    if (code >= 400)
+                    JOptionPane.showMessageDialog(null, "The sub-task could not be created. Please check your credentials and try again" );
                     ioException.printStackTrace();
                 }
             }});
