@@ -13,11 +13,7 @@ public class LaunchDevTools extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
         try {
             WelcomeScreenForm mm = new WelcomeScreenForm();
-            PluginConfigurationStrings.jiraIssueRoot = ConfigStringsDAO.getAttributeString(RestEndpoints.JiraIssueRoot);
-            PluginConfigurationStrings.propadminAuth= ConfigStringsDAO.getAttributeString(RestEndpoints.propadminAuth);
-            PluginConfigurationStrings.jiraProject= ConfigStringsDAO.getAttributeString(RestEndpoints.JiraProject);
-            PluginConfigurationStrings.jiraSubtaskId= ConfigStringsDAO.getAttributeString(RestEndpoints.JiraSubtaskId);
-            PluginConfigurationStrings.propadminBundle= ConfigStringsDAO.getAttributeString(RestEndpoints.propadminCreateBundleEndpoint)+"?user=";
+           new Thread(new PluginConfigurationStrings());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

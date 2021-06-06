@@ -18,6 +18,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SystemConfigCreationForm {
     private JTextField textField1;
@@ -28,6 +29,8 @@ public class SystemConfigCreationForm {
     private JPanel panel;
     private JTextField typeTextField;
     private JButton backButton;
+    private JList <String> optionList;
+    private JButton deleteSelectedOptionsButton;
     private List<ConfigOption> options = new ArrayList<>();
 
 
@@ -39,11 +42,12 @@ public class SystemConfigCreationForm {
         jf.setTitle("imc Dev Tools");
         //  Image icon = (Image)IconLoader.getIcon("/resources/META-INF/imc_logo.png");
         //       jf.setIconImage(icon);
-
+        DefaultListModel<String>  model= new DefaultListModel<String>();
+        optionList.setModel(model);
         jf.setContentPane(panel);
         //  jf.pack();
         jf.setVisible(true);
-
+        int index= 0;
         addToListOfButton.addActionListener(e -> {
         String title =  optionTitle.getText();
         ConfigOption.ConfigType type =ConfigOption.ConfigType.valueOf(typeTextField.getText());
@@ -52,6 +56,8 @@ public class SystemConfigCreationForm {
             JOptionPane.showMessageDialog(jf, "Option stored. Add all options before creating the config");
         optionTitle.setText("");
         typeTextField.setText("");
+        model.addElement(configOption.title);
+        addSectionButton.setEnabled(true);
         });
 
 
@@ -132,4 +138,6 @@ public class SystemConfigCreationForm {
 
         });
     }
+
+
 }

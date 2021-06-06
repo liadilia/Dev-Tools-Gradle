@@ -1,6 +1,8 @@
 package SystemConfigGenerator;
 
-public class ConfigOption {
+import java.awt.*;
+
+public class ConfigOption extends Component {
 
 
     String title;

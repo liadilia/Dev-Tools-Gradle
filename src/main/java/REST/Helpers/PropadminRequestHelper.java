@@ -2,6 +2,7 @@ package REST.Helpers;
 
 
 import LaunchDevTools.CurrentUser;
+import LaunchDevTools.PluginConfigurationStrings;
 import REST.Bundle;
 import REST.Connection;
 import REST.RestEndpoints;
@@ -40,13 +41,13 @@ public class PropadminRequestHelper {
 
     public static void CreatePropadminBundles(String context, String bundleKey, String bundleText){
         try {
-            Connection propadminAuth = new Connection(RestEndpoints.PROPADMIN_AUTH, Connection.Method.POST, PropadminRequestHelper.getAuthPayload(), null);
+            Connection propadminAuth = new Connection(PluginConfigurationStrings.propadminAuth, Connection.Method.POST, PropadminRequestHelper.getAuthPayload(), null);
             // fetch authorization token
             String token = propadminAuth.getResponseObject().get("token").getAsString();
             // compose the body for the call to create the bundles
             String payload = PropadminRequestHelper.getBundleCreationRequestBody(bundleKey,bundleText, context);
             // POST request to create the Propadmin bundles
-            Connection createBundle= new Connection(RestEndpoints.PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, payload, new TokenAuthorization(token));
+            Connection createBundle= new Connection(PluginConfigurationStrings.propadminBundle, Connection.Method.POST, payload, new TokenAuthorization(token));
             //check the response code for both requests in case any error occurred
             if (createBundle.getResponseCode()<299){
                 JOptionPane.showMessageDialog(null, "Bundles successfully created");
