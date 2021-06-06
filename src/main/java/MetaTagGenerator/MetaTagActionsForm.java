@@ -23,7 +23,7 @@ import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 
 import static REST.RestEndpoints.*;
-import static REST.RestEndpoints.PROPADMIN_CREATE_BUNDLE;
+
 
 public class MetaTagActionsForm {
     private JButton backButton;
@@ -69,7 +69,21 @@ public class MetaTagActionsForm {
 
             });
             CreateBundles.addActionListener(e -> {
-                if (CurrentUser.localizationPassword.equals("")) {
+                if (PluginConfigurationStrings.propadminAuth.equals("")) {
+                    JTextField path = new JTextField();
+                    int clicked = JOptionPane.showConfirmDialog(null, path, "Enter the localization server URL", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                    if (clicked == JOptionPane.OK_OPTION) {
+                        PluginConfigurationStrings.propadminAuth = path.getText();
+                    }
+                }
+                else if (PluginConfigurationStrings.propadminBundle.equals("")) {
+                    JTextField path = new JTextField();
+                    int clicked = JOptionPane.showConfirmDialog(null, path, "Enter the bundle endpoint", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                    if (clicked == JOptionPane.OK_OPTION) {
+                        PluginConfigurationStrings.propadminBundle = path.getText()+"?user="+CurrentUser.email;
+                    }
+                }
+               else if (CurrentUser.localizationPassword.equals("")) {
                     JPasswordField pf = new JPasswordField();
                     int clicked = JOptionPane.showConfirmDialog(null, pf, "Enter your Propadmin password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                     if (clicked == JOptionPane.OK_OPTION) {
@@ -79,7 +93,7 @@ public class MetaTagActionsForm {
                     String jsonAuth = "{\"userName\":\"" + CurrentUser.email + "\", \"password\":\"" + CurrentUser.localizationPassword + "\"}";
                     // authenticate to Propadmin
                     try {
-                        Connection propadminAuth = new Connection(PROPADMIN_AUTH, Connection.Method.POST, jsonAuth, null);
+                        Connection propadminAuth = new Connection(PluginConfigurationStrings.propadminAuth, Connection.Method.POST, jsonAuth, null);
                         // fetch authorization token
                         String token = propadminAuth.getResponseObject().get("token").getAsString();
                         // compose the body for the call to create the bundles
@@ -88,8 +102,8 @@ public class MetaTagActionsForm {
                         context = "Description of the meta tag";
                         String metaTagDescription = PropadminRequestHelper.getBundleCreationRequestBody(MetaTagCreationForm.metaTagDescriptionKey, MetaTagCreationForm.metaTagDescription, context);
                         // POST request to create the Propadmin bundles
-                        Connection createNameBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagName, new TokenAuthorization(token));
-                        Connection createDescriptionBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagDescription, new TokenAuthorization(token));
+                        Connection createNameBundle = new Connection(PluginConfigurationStrings.propadminBundle, Connection.Method.POST, metaTagName, new TokenAuthorization(token));
+                        Connection createDescriptionBundle = new Connection(PluginConfigurationStrings.propadminBundle, Connection.Method.POST, metaTagDescription, new TokenAuthorization(token));
                         //check the response code for both requests in case any error occurred
                         if (createNameBundle.getResponseCode() < 299 && createDescriptionBundle.getResponseCode() < 299) {
                             JOptionPane.showMessageDialog(null, "Bundles successfully created");

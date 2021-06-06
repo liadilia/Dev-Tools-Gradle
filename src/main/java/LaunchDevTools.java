@@ -17,6 +17,7 @@ public class LaunchDevTools extends AnAction {
             PluginConfigurationStrings.propadminAuth= ConfigStringsDAO.getAttributeString(RestEndpoints.propadminAuth);
             PluginConfigurationStrings.jiraProject= ConfigStringsDAO.getAttributeString(RestEndpoints.JiraProject);
             PluginConfigurationStrings.jiraSubtaskId= ConfigStringsDAO.getAttributeString(RestEndpoints.JiraSubtaskId);
+            PluginConfigurationStrings.propadminBundle= ConfigStringsDAO.getAttributeString(RestEndpoints.propadminCreateBundleEndpoint)+"?user=";
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

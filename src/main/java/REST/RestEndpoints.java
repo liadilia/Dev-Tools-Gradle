@@ -9,9 +9,11 @@ public interface RestEndpoints {
     final String JiraProject ="JIRA_PROJECT";
     final String JiraSubtaskId="JIRA_SUBTASK_ID";
     final String propadminAuth = "LOCALIZATION_AUTH_ENDPOINT";
+    final String propadminCreateBundleEndpoint="LOCALIZATION_BUNDLE_ENDPOINT";
 
-    String PROPADMIN_AUTH = "https://propadmin.imc-hosting.com/propadmin/rest/auth";
-    String PROPADMIN_CREATE_BUNDLE = "https://propadmin.imc-hosting.com/propadmin/rest/products/ILS/versions/14.6/bundles?user=lia.ghita@im-c.com";
+  //  String PROPADMIN_AUTH = "https://propadmin.imc-hosting.com/propadmin/rest/auth";
+  //  String PROPADMIN_CREATE_BUNDLE = "https://propadmin.imc-hosting.com/propadmin/rest/products/ILS/versions/14.6/bundles";
+    //products/ILS/versions/14.6/bundles
 
     //Jira endpoints
 

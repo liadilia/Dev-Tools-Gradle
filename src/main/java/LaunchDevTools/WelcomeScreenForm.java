@@ -21,6 +21,7 @@ public class WelcomeScreenForm {
         enterButton.addActionListener(e -> {
             CurrentUser.issueKey = taskKey.getText().toUpperCase();
             CurrentUser.email = txtName.getText();
+            PluginConfigurationStrings.propadminBundle+=txtName.getText();
            jf.dispose();
             try {
                 MainMenuForm mm = new MainMenuForm();
