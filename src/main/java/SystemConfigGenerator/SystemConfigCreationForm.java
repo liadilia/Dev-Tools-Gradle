@@ -50,17 +50,18 @@ public class SystemConfigCreationForm {
         int index= 0;
         addToListOfButton.addActionListener(e -> {
         String title =  optionTitle.getText();
-        ConfigOption.ConfigType type =ConfigOption.ConfigType.valueOf(typeTextField.getText());
+        String type =optionType.getSelectedItem().toString();
         ConfigOption configOption = new ConfigOption(title, type);
         options.add(configOption);
             JOptionPane.showMessageDialog(jf, "Option stored. Add all options before creating the config");
         optionTitle.setText("");
-        typeTextField.setText("");
         model.addElement(configOption.title+" of type "+configOption.type);
         addSectionButton.setEnabled(true);
         });
         deleteSelectedOptionsButton.addActionListener(e->{
             model.removeElementAt(optionList.getSelectedIndex());
+            if (optionList.getModel().getSize()==0)
+                addSectionButton.setEnabled(false);
         });
 
         addSectionButton.addActionListener(e -> {

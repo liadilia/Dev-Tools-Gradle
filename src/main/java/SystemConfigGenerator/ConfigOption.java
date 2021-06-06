@@ -6,13 +6,11 @@ public class ConfigOption extends Component {
 
 
     String title;
-    ConfigType type;
+    String type;
 
-    enum ConfigType{
-        String
-    }
 
-    public ConfigOption(String title, ConfigType type){
+
+    public ConfigOption(String title, String type){
         this.title = title;
         this.type=type;
     }
@@ -20,11 +18,11 @@ public class ConfigOption extends Component {
     public void setTitle(String title) {
         this.title = title;
     }
-    public void setType(ConfigType type){
+    public void setType(String type){
         this.type = type;
     }
 
-    public ConfigType getType() {
+    public String getType() {
         return type;
     }
 

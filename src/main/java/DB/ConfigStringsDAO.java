@@ -21,4 +21,19 @@ public class ConfigStringsDAO {
         }catch(Exception e){System.out.println(e);}
         return value;
     }
+
+
+    public static int update(String name,String value){
+        int status=0;
+        try{
+            Connection con=DBConnection.getConnection();
+            PreparedStatement ps=con.prepareStatement("UPDATE configurations SET `value`=? WHERE name=?");
+            ps.setString(1,value);
+            ps.setString(2,name);
+
+            status=ps.executeUpdate();
+            con.close();
+        }catch(Exception e){System.out.println(e);}
+        return status;
+    }
 }

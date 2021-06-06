@@ -11,9 +11,9 @@ import LaunchDevTools.PluginConfigurationStrings;
 public class LaunchDevTools extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
+        new Thread(new PluginConfigurationStrings()).start();
         try {
             WelcomeScreenForm mm = new WelcomeScreenForm();
-           new Thread(new PluginConfigurationStrings());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

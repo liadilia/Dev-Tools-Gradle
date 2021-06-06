@@ -125,6 +125,7 @@ public class MetaTagActionsForm {
                     }
                 } else {
                     Connection createJiraSubTask = null;
+                    System.out.println(JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql));
                 try {
                     createJiraSubTask = new Connection(PluginConfigurationStrings.jiraIssueRoot, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(CurrentUser.email,CurrentUser.jiraPassword));
                         String response = createJiraSubTask.getResponseObject().get("key").getAsString();
@@ -138,8 +139,8 @@ public class MetaTagActionsForm {
                             JOptionPane.showMessageDialog(null, "The sub-task was created but it could not be assigned. The key for the created Jira ticket is " + response);
                         }
                 } catch (IOException ioException) {
-                    assert createJiraSubTask != null;
-                    JOptionPane.showMessageDialog(null, "The sub-task could not be created" + createJiraSubTask.getResponseObject() );
+
+                    JOptionPane.showMessageDialog(null, "The sub-task could not be created" );
                     ioException.printStackTrace();
                 }
             }});

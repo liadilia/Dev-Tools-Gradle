@@ -16,6 +16,7 @@ public class PluginConfigurationStrings implements Runnable{
     public void run() {
         try{
             jiraIssueRoot = ConfigStringsDAO.getAttributeString(RestEndpoints.JiraIssueRoot);
+            System.out.print(jiraIssueRoot);
             propadminAuth= ConfigStringsDAO.getAttributeString(RestEndpoints.propadminAuth);
             jiraProject= ConfigStringsDAO.getAttributeString(RestEndpoints.JiraProject);
             jiraSubtaskId= ConfigStringsDAO.getAttributeString(RestEndpoints.JiraSubtaskId);

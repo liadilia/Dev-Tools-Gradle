@@ -1,19 +1,23 @@
 package AdminMode;
 
+import DB.ConfigStringsDAO;
 import LaunchDevTools.CustomSize;
+import LaunchDevTools.PluginConfigurationStrings;
+import REST.RestEndpoints;
+import jdk.tools.jlink.plugin.Plugin;
 
 import javax.swing.*;
 
 public class Administration {
     private JTextField metaTagIdTextField;
     private JPanel panel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JTextField textField5;
+    private JTextField jiraIssueRoot;
+    private JTextField localizationAuth;
+    private JTextField localizationBundleEndpoint;
+    private JTextField jiraProject;
+    private JTextField jiraSubTaskId;
     private JButton saveButton;
-    private JButton button1;
+    private JButton restoreButton;
 
     public Administration() throws ClassNotFoundException {
 
@@ -25,9 +29,27 @@ public class Administration {
         f.setJMenuBar(new JMenuBar());
         f.setContentPane(panel);
         //f.pack();
+        jiraIssueRoot.setText(PluginConfigurationStrings.jiraIssueRoot);
+        jiraProject.setText(PluginConfigurationStrings.jiraProject);
+        jiraSubTaskId.setText(PluginConfigurationStrings.jiraSubtaskId);
+        localizationAuth.setText(PluginConfigurationStrings.propadminAuth);
+        localizationAuth.setText(PluginConfigurationStrings.propadminBundle);
+
         f.setVisible(true);
+
+
+        saveButton.addActionListener(e->{
+            ConfigStringsDAO.update(RestEndpoints.JiraProject,jiraIssueRoot.getText());
+            ConfigStringsDAO.update(RestEndpoints.JiraSubtaskId,jiraSubTaskId.getText());
+            ConfigStringsDAO.update(RestEndpoints.JiraProject,jiraProject.getText());
+            ConfigStringsDAO.update(RestEndpoints.propadminAuth,localizationAuth.getText());
+            ConfigStringsDAO.update(RestEndpoints.propadminCreateBundleEndpoint,localizationBundleEndpoint.getText());
+        });
 
     }
 
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }
