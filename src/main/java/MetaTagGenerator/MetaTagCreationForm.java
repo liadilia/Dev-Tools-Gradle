@@ -214,6 +214,7 @@ public MetaTagCreationForm (){
 }
 
 
+/*
         sql= "insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) " +
                 "values (" + Id+
                 "dbsLANG, 'Learning Suite System', 0, '" + dtf.format(now)+
@@ -226,4 +227,4 @@ public MetaTagCreationForm (){
                 ", 0, 0, " +useForLP+
                 ", 0, '" +dtf.format(now)+
                 " 00:00:00.000', 0, 0, 0, 0," + multiLang+
-                " );";
+                " );";*/
