@@ -208,6 +208,11 @@ public MetaTagCreationForm (){
         builder.append(" 00:00:00.000', 0, 0, 0, 0,");
         builder.append(multiLang);
         builder.append(" );");
+        sql = builder.toString();
+        return sql;
+    }
+}
+
 
         sql= "insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) " +
                 "values (" + Id+
@@ -222,11 +227,3 @@ public MetaTagCreationForm (){
                 ", 0, '" +dtf.format(now)+
                 " 00:00:00.000', 0, 0, 0, 0," + multiLang+
                 " );";
-
-        sql = builder.toString();
-
-        System.out.println(sql);
-        return sql;
-    }
-}
-
