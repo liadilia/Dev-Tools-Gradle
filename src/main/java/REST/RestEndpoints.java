@@ -11,8 +11,8 @@ public interface RestEndpoints {
     //Jira endpoints
 
     // /issue supports POST for creating a new issue
-    String JIRA_ISSUE_ROOT = "https://jira.im-c.de/rest/api/2/issue/";
-
+   // String JIRA_ISSUE_ROOT = "https://jira.im-c.de/rest/api/2/issue/";
+    String JIRA_ISSUE_ROOT = "https://xamplitude.atlassian.net/rest/api/2/issue/";
     //these endpoints must be appended to the issue root endpoint, after providing the issue ID/Key after the /issue/
     //https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/
 
@@ -22,10 +22,5 @@ public interface RestEndpoints {
     // methods
     String methodPOST = "POST";
     String methodPUT = "PUT";
-
-    
-
-    //Technical user
-    String JIRA_USER = "";
-    String JIRA_PASS = "";
+    String token = "i9At0tY9UOY387P2H7NNDDEE";
 }

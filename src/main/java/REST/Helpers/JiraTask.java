@@ -24,7 +24,7 @@ public class JiraTask {
         this.description = description;
     }
     public class Project{
-        String key = "LMSILS";
+        String key = "PLUGINDEV";
     }
     public class Parent {
         String key;
@@ -33,7 +33,7 @@ public class JiraTask {
         }
     }
     public class IssueType{
-        String id="5";
+        String id="10003";
     }
   }
 }

@@ -41,7 +41,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="LMSILS-20127"/>
+          <text value="PLUGINDEV-1"/>
         </properties>
       </component>
       <component id="1f95e" class="javax.swing.JLabel">

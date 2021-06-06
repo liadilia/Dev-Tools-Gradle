@@ -33,7 +33,7 @@ public class PropadminRequestHelper {
     }
 
     public static String getAuthPayload (){
-        Auth auth = new Auth(RestEndpoints.JIRA_USER,RestEndpoints.JIRA_PASS);
+        Auth auth = new Auth(CurrentUser.email,CurrentUser.localizationPassword);
         return new Gson().toJson(auth);
     }
 

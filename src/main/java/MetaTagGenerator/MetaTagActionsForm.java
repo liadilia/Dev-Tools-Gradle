@@ -70,52 +70,66 @@ public class MetaTagActionsForm {
 
             });
             CreateBundles.addActionListener(e -> {
-                String jsonAuth = "{\"userName\":\"" + JIRA_USER + "\", \"password\":\"" + JIRA_PASS + "\"}";
-                // authenticate to Propadmin
-                try {
-                    Connection propadminAuth = new Connection(PROPADMIN_AUTH, Connection.Method.POST, jsonAuth, null);
-                    // fetch authorization token
-                    String token = propadminAuth.getResponseObject().get("token").getAsString();
-                    // compose the body for the call to create the bundles
-                    String context = "Name of the meta tag";
-                    String metaTagName = PropadminRequestHelper.getBundleCreationRequestBody(MetaTagCreationForm.metaTagNameKey, MetaTagCreationForm.metaTagName, context);
-                    context = "Description of the meta tag";
-                    String metaTagDescription = PropadminRequestHelper.getBundleCreationRequestBody(MetaTagCreationForm.metaTagDescriptionKey, MetaTagCreationForm.metaTagDescription, context);
-                    // POST request to create the Propadmin bundles
-                    Connection createNameBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagName, new TokenAuthorization(token));
-                    Connection createDescriptionBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagDescription, new TokenAuthorization(token));
-
-                    //check the response code for both requests in case any error occurred
-                    if (createNameBundle.getResponseCode() < 299 && createDescriptionBundle.getResponseCode() < 299) {
-                        JOptionPane.showMessageDialog(null, "Bundles successfully created");
-                    } else if (createNameBundle.getResponseCode() < 299 || createDescriptionBundle.getResponseCode() < 299) {
-                        JOptionPane.showMessageDialog(null, "One or both of the bundles could not be created");
+                if (CurrentUser.localizationPassword.equals("")) {
+                    JPasswordField pf = new JPasswordField();
+                    int clicked = JOptionPane.showConfirmDialog(null, pf, "Enter your Propadmin password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                    if (clicked == JOptionPane.OK_OPTION) {
+                        CurrentUser.localizationPassword = new String(pf.getPassword());
                     }
-
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                } else {
+                    String jsonAuth = "{\"userName\":\"" + CurrentUser.email + "\", \"password\":\"" + CurrentUser.localizationPassword + "\"}";
+                    // authenticate to Propadmin
+                    try {
+                        Connection propadminAuth = new Connection(PROPADMIN_AUTH, Connection.Method.POST, jsonAuth, null);
+                        // fetch authorization token
+                        String token = propadminAuth.getResponseObject().get("token").getAsString();
+                        // compose the body for the call to create the bundles
+                        String context = "Name of the meta tag";
+                        String metaTagName = PropadminRequestHelper.getBundleCreationRequestBody(MetaTagCreationForm.metaTagNameKey, MetaTagCreationForm.metaTagName, context);
+                        context = "Description of the meta tag";
+                        String metaTagDescription = PropadminRequestHelper.getBundleCreationRequestBody(MetaTagCreationForm.metaTagDescriptionKey, MetaTagCreationForm.metaTagDescription, context);
+                        // POST request to create the Propadmin bundles
+                        Connection createNameBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagName, new TokenAuthorization(token));
+                        Connection createDescriptionBundle = new Connection(PROPADMIN_CREATE_BUNDLE, Connection.Method.POST, metaTagDescription, new TokenAuthorization(token));
+                        //check the response code for both requests in case any error occurred
+                        if (createNameBundle.getResponseCode() < 299 && createDescriptionBundle.getResponseCode() < 299) {
+                            JOptionPane.showMessageDialog(null, "Bundles successfully created");
+                        } else if (createNameBundle.getResponseCode() < 299 || createDescriptionBundle.getResponseCode() < 299) {
+                            JOptionPane.showMessageDialog(null, "One or both of the bundles could not be created");
+                        }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
-
             });
 
             AddSQLToJira.addActionListener(e -> {
-                try {
-                    Connection createJiraSubTask = new Connection(JIRA_ISSUE_ROOT, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(JIRA_USER, JIRA_PASS));
-                    String response = createJiraSubTask.getResponseObject().get("key").getAsString();
-                    Connection assignTask = new Connection(JIRA_ISSUE_ROOT + response, Connection.Method.PUT, JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee), new BasicAuthorization(JIRA_USER, JIRA_PASS));
-                    if (createJiraSubTask.getResponseCode() < 299 && assignTask.getResponseCode() < 299) {
-                        JOptionPane.showMessageDialog(null, "Sub-task created and assigned for commit on the init script. The key for the created Jira ticket is " + response);
-                    } else if (createJiraSubTask.getResponseCode() < 299) {
-                        JOptionPane.showMessageDialog(null, "The sub-task could not be created");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "The sub-task was created but it could not be assigned. The key for the created Jira ticket is " + response);
+                if (CurrentUser.jiraPassword.equals("")) {
+                    JPasswordField pf = new JPasswordField();
+                    int clicked = JOptionPane.showConfirmDialog(null, pf, "Enter your Jira password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                    if (clicked == JOptionPane.OK_OPTION) {
+                        CurrentUser.jiraPassword = new String(pf.getPassword());
                     }
+                } else {
+                    Connection createJiraSubTask = null;
+                try {
+                    createJiraSubTask = new Connection(JIRA_ISSUE_ROOT, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(CurrentUser.email,CurrentUser.jiraPassword));
+                        String response = createJiraSubTask.getResponseObject().get("key").getAsString();
+                        Connection assignTask = new Connection(JIRA_ISSUE_ROOT + response, Connection.Method.PUT, JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee), new BasicAuthorization(CurrentUser.email, CurrentUser.jiraPassword));
 
+                        if (createJiraSubTask.getResponseCode() < 299 && assignTask.getResponseCode() < 299) {
+                            JOptionPane.showMessageDialog(null, "Sub-task created and assigned for commit on the init script. The key for the created Jira ticket is " + response);
+                        } else if ((createJiraSubTask.getResponseCode() < 299) || (createJiraSubTask.getResponseCode() >= 400)) {
+                            JOptionPane.showMessageDialog(null, "The sub-task could not be created" + createJiraSubTask.getResponseObject());
+                        } else {
+                            JOptionPane.showMessageDialog(null, "The sub-task was created but it could not be assigned. The key for the created Jira ticket is " + response);
+                        }
                 } catch (IOException ioException) {
+                    assert createJiraSubTask != null;
+                    JOptionPane.showMessageDialog(null, "The sub-task could not be created" + createJiraSubTask.getResponseObject() );
                     ioException.printStackTrace();
                 }
-
-            });
+            }});
 
             backButton.addActionListener(e -> {
                 try {
