@@ -122,7 +122,6 @@ public class PSIHelper {
                 break;
             }
         }
-
         if (null == result[0]) {
             WriteCommandAction.runWriteCommandAction(p, new Runnable() {
                 @Override
@@ -130,11 +129,9 @@ public class PSIHelper {
                     result[0] = parent.createSubdirectory(name);
                 }
             });
-
         }
-
         return result[0];
-    } // createDirectory()
+    }
 
 
 

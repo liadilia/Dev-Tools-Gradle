@@ -185,7 +185,7 @@ public MetaTagCreationForm (){
     public String composeSQL(String Id, String type, String isSystem, String useForCourses, String useForLP, String UseForMedia, String multiLang){
         String sql="";
         StringBuilder builder = null;
-       /* builder.append("insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) values (");
+       builder.append("insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) values (");
         builder.append(Id);
         builder.append("dbsLANG, 'Learning Suite System', 0, '");
         builder.append(dtf.format(now));
@@ -208,7 +208,7 @@ public MetaTagCreationForm (){
         builder.append(" 00:00:00.000', 0, 0, 0, 0,");
         builder.append(multiLang);
         builder.append(" );");
-*/
+
         sql= "insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) " +
                 "values (" + Id+
                 "dbsLANG, 'Learning Suite System', 0, '" + dtf.format(now)+
@@ -223,7 +223,9 @@ public MetaTagCreationForm (){
                 " 00:00:00.000', 0, 0, 0, 0," + multiLang+
                 " );";
 
-     //   sql = builder.toString();
+        sql = builder.toString();
+
+        System.out.println(sql);
         return sql;
     }
 }
