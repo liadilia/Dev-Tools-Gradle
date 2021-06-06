@@ -184,8 +184,8 @@ public MetaTagCreationForm (){
     LocalDateTime now = LocalDateTime.now();
     public String composeSQL(String Id, String type, String isSystem, String useForCourses, String useForLP, String UseForMedia, String multiLang){
         String sql="";
-        StringBuilder builder = null;
-       builder.append("insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) values (");
+        StringBuilder builder = new StringBuilder();
+        builder.append("insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) values (");
         builder.append(Id);
         builder.append("dbsLANG, 'Learning Suite System', 0, '");
         builder.append(dtf.format(now));
