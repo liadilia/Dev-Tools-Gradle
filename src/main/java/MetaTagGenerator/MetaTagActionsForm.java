@@ -14,13 +14,12 @@ import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import LaunchDevTools.PluginConfigurationStrings;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.File;
 import java.io.IOException;
 
 import static REST.RestEndpoints.*;
@@ -113,9 +112,9 @@ public class MetaTagActionsForm {
                 } else {
                     Connection createJiraSubTask = null;
                 try {
-                    createJiraSubTask = new Connection(JIRA_ISSUE_ROOT, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(CurrentUser.email,CurrentUser.jiraPassword));
+                    createJiraSubTask = new Connection(PluginConfigurationStrings.jiraIssueRoot, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(CurrentUser.email,CurrentUser.jiraPassword));
                         String response = createJiraSubTask.getResponseObject().get("key").getAsString();
-                        Connection assignTask = new Connection(JIRA_ISSUE_ROOT + response, Connection.Method.PUT, JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee), new BasicAuthorization(CurrentUser.email, CurrentUser.jiraPassword));
+                        Connection assignTask = new Connection(PluginConfigurationStrings.jiraIssueRoot + response, Connection.Method.PUT, JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee), new BasicAuthorization(CurrentUser.email, CurrentUser.jiraPassword));
 
                         if (createJiraSubTask.getResponseCode() < 299 && assignTask.getResponseCode() < 299) {
                             JOptionPane.showMessageDialog(null, "Sub-task created and assigned for commit on the init script. The key for the created Jira ticket is " + response);

@@ -2,6 +2,8 @@ package REST.Helpers;
 
 //import sun.security.x509.IssuerAlternativeNameExtension;
 
+import LaunchDevTools.PluginConfigurationStrings;
+
 public class JiraTask {
 //https://developer.atlassian.com/server/jira/platform/jira-rest-api-example-create-issue-7897248/
     JiraTaskFields fields;
@@ -24,7 +26,7 @@ public class JiraTask {
         this.description = description;
     }
     public class Project{
-        String key = "PLUGINDEV";
+        String key = PluginConfigurationStrings.jiraProject;
     }
     public class Parent {
         String key;
@@ -33,7 +35,7 @@ public class JiraTask {
         }
     }
     public class IssueType{
-        String id="10003";
+        String id=PluginConfigurationStrings.jiraSubtaskId;
     }
   }
 }
