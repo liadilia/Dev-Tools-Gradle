@@ -56,10 +56,12 @@ public class SystemConfigCreationForm {
             JOptionPane.showMessageDialog(jf, "Option stored. Add all options before creating the config");
         optionTitle.setText("");
         typeTextField.setText("");
-        model.addElement(configOption.title);
+        model.addElement(configOption.title+" of type "+configOption.type);
         addSectionButton.setEnabled(true);
         });
-
+        deleteSelectedOptionsButton.addActionListener(e->{
+            model.removeElementAt(optionList.getSelectedIndex());
+        });
 
         addSectionButton.addActionListener(e -> {
             Project p = ProjectManager.getInstance().getDefaultProject();
