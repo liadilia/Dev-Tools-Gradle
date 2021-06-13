@@ -18,6 +18,7 @@ public class Administration {
     private JTextField jiraSubTaskId;
     private JButton saveButton;
     private JButton restoreButton;
+    private JButton backButton;
 
     public Administration() throws ClassNotFoundException {
 
@@ -52,4 +53,5 @@ public class Administration {
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
+
 }

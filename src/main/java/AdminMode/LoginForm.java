@@ -25,7 +25,8 @@ public class LoginForm extends Component {
 
             JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        f.setBounds(CustomSize.width / 3, CustomSize.height / 8, 750, 800);
+        f.setBounds(CustomSize.width / 3, CustomSize.height / 8, 450, 500);
+
 
             f.setTitle("imc Dev Tools");
 

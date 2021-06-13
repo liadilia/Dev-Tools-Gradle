@@ -31,7 +31,6 @@ public class MetaTagActionsForm {
     private JButton AddSQLToJira;
     private JButton CreateBundles;
     private JPanel panel;
-    private JButton button4;
     private JButton CopyToClipboard;
     private JFormattedTextField formattedTextField;
 
@@ -124,15 +123,10 @@ public class MetaTagActionsForm {
                         CurrentUser.jiraPassword = new String(pf.getPassword());
                     }
                 } else {
-                  //  Connection createJiraSubTask = null;
-
-                    int code=-1;
                 try {
                     Connection createJiraSubTask = new Connection(PluginConfigurationStrings.jiraIssueRoot, Connection.Method.POST, JiraRequestHelper.getJiraSubTaskCreationRequestBody(parentId, sql), new BasicAuthorization(CurrentUser.email,CurrentUser.jiraPassword));
-                     code= createJiraSubTask.getResponseCode();
                         String response = createJiraSubTask.getResponseObject().get("key").getAsString();
                         Connection assignTask = new Connection(PluginConfigurationStrings.jiraIssueRoot + response, Connection.Method.PUT, JiraRequestHelper.getJiraTaskAssignmentToUserBody(assignee), new BasicAuthorization(CurrentUser.email, CurrentUser.jiraPassword));
-
                         if (createJiraSubTask.getResponseCode() < 299 && assignTask.getResponseCode() < 299) {
                             JOptionPane.showMessageDialog(null, "Sub-task created and assigned for commit on the init script. The key for the created Jira ticket is " + response);
                         } else if ((createJiraSubTask.getResponseCode() < 299) || (createJiraSubTask.getResponseCode() >= 400)) {
@@ -141,8 +135,6 @@ public class MetaTagActionsForm {
                             JOptionPane.showMessageDialog(null, "The sub-task was created but it could not be assigned. The key for the created Jira ticket is " + response);
                         }
                 } catch (IOException ioException) {
-
-                    if (code >= 400)
                     JOptionPane.showMessageDialog(null, "The sub-task could not be created. Please check your credentials and try again" );
                     ioException.printStackTrace();
                 }

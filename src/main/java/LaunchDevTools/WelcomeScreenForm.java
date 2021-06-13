@@ -13,7 +13,7 @@ public class WelcomeScreenForm {
     public WelcomeScreenForm() throws ClassNotFoundException {
 
         JFrame jf = new JFrame();
-        jf.setBounds(CustomSize.width / 3, CustomSize.height / 8, 750, 800);
+        jf.setBounds(CustomSize.width / 3, CustomSize.height / 8, 450, 500);
         jf.setTitle("imc Dev Tools");
         jf.setContentPane(panel);
         jf.setVisible(true);
