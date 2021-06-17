@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public class SystemConfigFactoryTemplate {
 
-    public static String fillTemplate(String category, String factoryClassName){
+    public static String fillTemplate(String category, String factoryClassName) {
         StringBuilder sb = new StringBuilder();
         sb.append("package de.imc.clix.core.configuration.");
         sb.append(category.toLowerCase(Locale.ROOT));
@@ -23,7 +23,7 @@ public class SystemConfigFactoryTemplate {
         sb.append(" return new ");
         sb.append(factoryClassName);
         sb.append("();\n}\n}");
-       return sb.toString();
+        return sb.toString();
     }
 
 }

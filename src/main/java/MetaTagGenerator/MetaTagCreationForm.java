@@ -14,6 +14,12 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 
 public class MetaTagCreationForm {
+    public static String metaTagNameKey = "";
+    public static String metaTagDescriptionKey = "";
+    public static String metaTagName = "";
+    public static String metaTagDescription = "";
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDateTime now = LocalDateTime.now();
     private JPanel panel;
     private JTextField metatagName;
     private JButton createButton;
@@ -26,40 +32,33 @@ public class MetaTagCreationForm {
     private JComboBox<ComboItem> useForPaths;
     private JButton backButton;
     private JTextArea metatagDescription;
+    public MetaTagCreationForm() {
 
-    public static String metaTagNameKey = "";
-    public static String metaTagDescriptionKey="";
-    public static String metaTagName = "";
-    public static String metaTagDescription="";
-
-public MetaTagCreationForm (){
-
-   //     UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme");
+        //     UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme");
 
         JFrame jf = new JFrame();
         jf.setBounds(CustomSize.width / 3, CustomSize.height / 8, 750, 800);
 
         jf.setTitle("imc Dev Tools");
-  //      jf.setIconImage(ImageIO.read(new File("resources/META-INF/imc_logo.png")));
+        //      jf.setIconImage(ImageIO.read(new File("resources/META-INF/imc_logo.png")));
         jf.setContentPane(panel);
         //  jf.pack();
         jf.setVisible(true);
 
 
-
-        DefaultComboBoxModel multiLanguageModel =  (DefaultComboBoxModel)multiLanguage.getModel();
+        DefaultComboBoxModel multiLanguageModel = (DefaultComboBoxModel) multiLanguage.getModel();
         multiLanguageModel.addElement(new ComboItem("Yes", "1"));
         multiLanguageModel.addElement(new ComboItem("No", "0"));
-        DefaultComboBoxModel useForPathsModel =  (DefaultComboBoxModel)useForPaths.getModel();
+        DefaultComboBoxModel useForPathsModel = (DefaultComboBoxModel) useForPaths.getModel();
         useForPathsModel.addElement(new ComboItem("Yes", "1"));
         useForPathsModel.addElement(new ComboItem("No", "0"));
-        DefaultComboBoxModel useForMediaModel =  (DefaultComboBoxModel)useForMedia.getModel();
+        DefaultComboBoxModel useForMediaModel = (DefaultComboBoxModel) useForMedia.getModel();
         useForMediaModel.addElement(new ComboItem("Yes", "1"));
         useForMediaModel.addElement(new ComboItem("No", "0"));
-        DefaultComboBoxModel useForCoursesModel =  (DefaultComboBoxModel)useForCourses.getModel();
+        DefaultComboBoxModel useForCoursesModel = (DefaultComboBoxModel) useForCourses.getModel();
         useForCoursesModel.addElement(new ComboItem("Yes", "1"));
         useForCoursesModel.addElement(new ComboItem("No", "0"));
-        DefaultComboBoxModel isSystemModel =  (DefaultComboBoxModel) isSystemSelect.getModel();
+        DefaultComboBoxModel isSystemModel = (DefaultComboBoxModel) isSystemSelect.getModel();
         isSystemModel.addElement(new ComboItem("Yes", "1"));
         isSystemModel.addElement(new ComboItem("No", "0"));
 
@@ -131,7 +130,7 @@ public MetaTagCreationForm (){
                 Object itemtype = metatagTypeSelection.getSelectedItem();
                 String type = ((ComboItem) itemtype).getValue();
                 Object item = isSystemSelect.getSelectedItem();
-                String isSystem = ((ComboItem)item).getValue();
+                String isSystem = ((ComboItem) item).getValue();
                 Object item2 = useForCourses.getSelectedItem();
                 String useForCourses = ((ComboItem) item2).getValue();
                 Object item3 = isSystemSelect.getSelectedItem();
@@ -167,23 +166,20 @@ public MetaTagCreationForm (){
 
             }
         });
-    backButton.addActionListener(e -> {
-        try {
-            MainMenuForm mmf = new MainMenuForm();
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-        }
-        jf.dispose();
+        backButton.addActionListener(e -> {
+            try {
+                MainMenuForm mmf = new MainMenuForm();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+            jf.dispose();
 
-    });
+        });
 
     }
 
-
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDateTime now = LocalDateTime.now();
-    public String composeSQL(String Id, String type, String isSystem, String useForCourses, String useForLP, String UseForMedia, String multiLang){
-        String sql="";
+    public String composeSQL(String Id, String type, String isSystem, String useForCourses, String useForLP, String UseForMedia, String multiLang) {
+        String sql = "";
         StringBuilder builder = new StringBuilder();
         builder.append("insert into metatag (metatag_id, language_id, creator, creator_id, creationdate, name, active, description, description2, formelementtype_id, required_tag, systemitem, useforcourse, useformedia, useforcommunity, useforservice, useforprogram, useforresource, lastupdated, lastupdater_id, useforexercisegroup, useforexercisesheet, useforexercise, multilang) values (");
         builder.append(Id);
@@ -195,7 +191,7 @@ public MetaTagCreationForm (){
         builder.append(metaTagDescriptionKey);
         builder.append(", '', ");
         builder.append(type);
-        builder.append(", 0," );
+        builder.append(", 0,");
         builder.append(isSystem);
         builder.append(", ");
         builder.append(useForCourses);

@@ -1,7 +1,6 @@
 package PSIHelpers;
 
 import com.intellij.lang.Language;
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -9,7 +8,10 @@ import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -48,21 +50,21 @@ public class PSIHelper {
         return null;
     }
 
-    public static void appendFile(PsiFile file, String data, String insertBeforeLastOccurenceOf){
+    public static void appendFile(PsiFile file, String data, String insertBeforeLastOccurenceOf) {
         @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
         Project project = p[0];
-        VirtualFile vFile=file.getVirtualFile();
+        VirtualFile vFile = file.getVirtualFile();
         OpenFileDescriptor descriptor = new OpenFileDescriptor(project, vFile);
         descriptor.navigateInEditor(project, true);
         StringBuilder src = new StringBuilder(file.getText());
         int i = src.lastIndexOf(insertBeforeLastOccurenceOf);
-        src.insert(i,data );
+        src.insert(i, data);
         WriteCommandAction.runWriteCommandAction(project, new Runnable() {
             @Override
             public void run() {
                 try {
                     vFile.setBinaryContent(src.toString().getBytes("utf-8"));
-                    System.out.println(file.getNode().getChildren(null)) ;
+                    System.out.println(file.getNode().getChildren(null));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -79,13 +81,13 @@ public class PSIHelper {
     }
 
 
-    public static void appendFileAfterOccurence(PsiFile file, String data, String landmark){
+    public static void appendFileAfterOccurence(PsiFile file, String data, String landmark) {
         @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
         Project project = p[0];
         OpenFileDescriptor descriptor = new OpenFileDescriptor(project, file.getVirtualFile());
         StringBuilder src = new StringBuilder(file.getText());
-        int i = src.indexOf(landmark,0);
-        src.insert(i,data );
+        int i = src.indexOf(landmark, 0);
+        src.insert(i, data);
         WriteCommandAction.runWriteCommandAction(project, new Runnable() {
             @Override
             public void run() {
@@ -108,7 +110,6 @@ public class PSIHelper {
         });
 
     }
-
 
 
     public static PsiDirectory createDirectory(PsiDirectory parent, String name)
@@ -134,13 +135,12 @@ public class PSIHelper {
     }
 
 
-
     public static PsiFile createFileInDirectory(final PsiDirectory directory, String name, String content, String language) throws IncorrectOperationException {
         @NotNull Project[] p = ProjectManager.getInstance().getOpenProjects();
         Project project = p[0];
         final PsiFile currentFile = directory.findFile(name);
         if (currentFile != null) {
-           return currentFile;
+            return currentFile;
         }
         final PsiFileFactory factory = PsiFileFactory.getInstance(directory.getProject());
 
@@ -158,12 +158,11 @@ public class PSIHelper {
         WriteCommandAction.runWriteCommandAction(project, new Runnable() {
             @Override
             public void run() {
-                 psifile[0] = (PsiFile) directory.add(file);
+                psifile[0] = (PsiFile) directory.add(file);
             }
         });
         return psifile[0];
     }
-
 
 
     public static PsiFile getContainingFileInDir(String fqn, PsiDirectory dir) {
@@ -182,25 +181,25 @@ public class PSIHelper {
         PsiFile file = files[0];
         if (files != null && files.length > 0) {
             boolean foundMatch = false;
-            for (int i=0; i<files.length; i++){
-                file=files[i];
-         //       if (file.getContainingDirectory()!= dir){
-                if (file.getContainingDirectory().equals(dir)){
+            for (int i = 0; i < files.length; i++) {
+                file = files[i];
+                //       if (file.getContainingDirectory()!= dir){
+                if (file.getContainingDirectory().equals(dir)) {
                     System.out.println(file.getContainingDirectory());
                     System.out.println(dir);
-                    foundMatch=true;
+                    foundMatch = true;
                     break;
                 } else {
-                    foundMatch=false;
+                    foundMatch = false;
 
                 }
 
 
             }
-         if (foundMatch)  {
-             System.out.println("I returned"+file.getContainingDirectory());
-             return file;
-         }
+            if (foundMatch) {
+                System.out.println("I returned" + file.getContainingDirectory());
+                return file;
+            }
 
 
         }
@@ -224,25 +223,13 @@ public class PSIHelper {
         if (files != null && files.length > 0) {
             PsiFile file = files[0];
 
-                return file;
-            }
+            return file;
+        }
 
         return null;
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public static PsiDirectory createPackage(PsiDirectory sourceDir, String qualifiedPackage)
@@ -256,30 +243,21 @@ public class PSIHelper {
         return parent;
     } // createPackage()
 
-    public static PsiFile getDirectoryByName(Project p, String name){
+    public static PsiFile getDirectoryByName(Project p, String name) {
 //Not functional yet
-        PsiFile[] files= getFilesByName(p,name, GlobalSearchScope.allScope(p));
+        PsiFile[] files = getFilesByName(p, name, GlobalSearchScope.allScope(p));
         System.out.println(files[0].getName());
         if (files[0].isDirectory())
             return files[0];
         else return null;
     }
 
-    public static void createFile(Project p, String name){
+    public static void createFile(Project p, String name) {
         PsiFileFactory fileFactory = PsiFileFactory.getInstance(p);
-        PsiFile file = fileFactory.createFileFromText(name, Language.ANY,"blabla");
+        PsiFile file = fileFactory.createFileFromText(name, Language.ANY, "blabla");
 
 
     }
-
-
-
-
-
-
-
-
-
 
 
 }

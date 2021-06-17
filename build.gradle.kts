@@ -31,6 +31,7 @@ repositories {
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.15.0")
     implementation ("mysql:mysql-connector-java:8.0.24")
+    //implementation ("com.google.code.gson:gson:2.8.7")
 }
 
 // Configure gradle-intellij-plugin plugin.

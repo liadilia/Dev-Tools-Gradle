@@ -4,7 +4,6 @@ import DB.ConfigStringsDAO;
 import LaunchDevTools.CustomSize;
 import LaunchDevTools.PluginConfigurationStrings;
 import REST.RestEndpoints;
-import jdk.tools.jlink.plugin.Plugin;
 
 import javax.swing.*;
 
@@ -39,12 +38,12 @@ public class Administration {
         f.setVisible(true);
 
 
-        saveButton.addActionListener(e->{
-            ConfigStringsDAO.update(RestEndpoints.JiraProject,jiraIssueRoot.getText());
-            ConfigStringsDAO.update(RestEndpoints.JiraSubtaskId,jiraSubTaskId.getText());
-            ConfigStringsDAO.update(RestEndpoints.JiraProject,jiraProject.getText());
-            ConfigStringsDAO.update(RestEndpoints.propadminAuth,localizationAuth.getText());
-            ConfigStringsDAO.update(RestEndpoints.propadminCreateBundleEndpoint,localizationBundleEndpoint.getText());
+        saveButton.addActionListener(e -> {
+            ConfigStringsDAO.update(RestEndpoints.JiraProject, jiraIssueRoot.getText());
+            ConfigStringsDAO.update(RestEndpoints.JiraSubtaskId, jiraSubTaskId.getText());
+            ConfigStringsDAO.update(RestEndpoints.JiraProject, jiraProject.getText());
+            ConfigStringsDAO.update(RestEndpoints.propadminAuth, localizationAuth.getText());
+            ConfigStringsDAO.update(RestEndpoints.propadminCreateBundleEndpoint, localizationBundleEndpoint.getText());
         });
 
     }

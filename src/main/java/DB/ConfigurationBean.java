@@ -36,5 +36,4 @@ public class ConfigurationBean {
 //    LOCALIZATION_BUNDLE_ENDPOINT
 
 
-
 }

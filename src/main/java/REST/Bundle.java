@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bundle {
+    public final String component = "default";
+    public final String part = "default";
+    public final String services = ":backend:";
     public List<String> bundleLocations = new ArrayList<>();
     public String identifier;
     public String context;
@@ -12,9 +15,11 @@ public class Bundle {
     public String createdBy;
     public boolean staysEmpty = false;
     public boolean isLocked = false;
-    public final String component ="default";
-    public final String part ="default";
-    public final String services=":backend:";
+
+    public Bundle(String identifier, String context, String createdBy) {
+        this.identifier = identifier;
+        this.context = context;
+    }
 
     public void addTranslation(Translations t) {
         if (translations == null) {
@@ -23,10 +28,7 @@ public class Bundle {
         translations.add(t);
 
     }
-    public Bundle (String identifier, String context, String createdBy){
-        this.identifier=identifier;
-        this.context=context;
-    }
+
     public static class Translations {
         public String language, code, value;
 

@@ -1,12 +1,13 @@
 package Templates;
 
 import SystemConfigGenerator.ConfigOption;
+
 import java.util.List;
 import java.util.Locale;
 
 public class BaseClassTemplate {
 
-    public static String fillTemplate (String category, List<ConfigOption> options){
+    public static String fillTemplate(String category, List<ConfigOption> options) {
         StringBuilder sb = new StringBuilder();
         sb.append("package de.imc.clix.core.configuration.");
         sb.append(category.toLowerCase(Locale.ROOT));
@@ -15,7 +16,7 @@ public class BaseClassTemplate {
         sb.append(category);
         sb.append("{\n");
 
-        for(ConfigOption option:options){
+        for (ConfigOption option : options) {
             sb.append("private ");
             sb.append(option.getType());
             sb.append(" ");
@@ -23,7 +24,7 @@ public class BaseClassTemplate {
             sb.append(";\n");
         }
 
-        for (ConfigOption option:options){
+        for (ConfigOption option : options) {
             sb.append("public ");
             sb.append(option.getType());
             sb.append(" ");

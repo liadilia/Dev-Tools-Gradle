@@ -1,11 +1,8 @@
-
-import DB.ConfigStringsDAO;
-import REST.RestEndpoints;
+import LaunchDevTools.PluginConfigurationStrings;
+import LaunchDevTools.WelcomeScreenForm;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
-import LaunchDevTools.WelcomeScreenForm;
-import LaunchDevTools.PluginConfigurationStrings;
 
 
 public class LaunchDevTools extends AnAction {

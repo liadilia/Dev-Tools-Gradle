@@ -3,7 +3,6 @@ package LaunchDevTools;
 import AdminMode.LoginForm;
 import DB.UserDAO;
 import MetaTagGenerator.MetaTagCreationForm;
-//import com.bulenkov.iconloader.IconLoader;
 import SystemConfigGenerator.SystemConfigCreationForm;
 
 import javax.swing.*;
@@ -15,7 +14,7 @@ public class MainMenuForm {
     private JButton createSystemConfig;
     private JButton adminLogin;
 
-public MainMenuForm() throws ClassNotFoundException{
+    public MainMenuForm() throws ClassNotFoundException {
 
         JFrame jf = new JFrame();
         jf.setBounds(CustomSize.width / 3, CustomSize.height / 8, 450, 500);
@@ -29,21 +28,21 @@ public MainMenuForm() throws ClassNotFoundException{
             jf.dispose();
 
         });
-    createSystemConfig.addActionListener(e -> {
-        SystemConfigCreationForm newForm = new SystemConfigCreationForm();
-        jf.dispose();
-    });
+        createSystemConfig.addActionListener(e -> {
+            SystemConfigCreationForm newForm = new SystemConfigCreationForm();
+            jf.dispose();
+        });
 
-    adminLogin.addActionListener(e -> {
+        adminLogin.addActionListener(e -> {
 
-        System.out.println( UserDAO.getUserName("1"));
-        try {
-            LoginForm lf = new LoginForm();
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-        }
+            System.out.println(UserDAO.getUserName("1"));
+            try {
+                LoginForm lf = new LoginForm();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
 
-    });
+        });
     }
 
 
