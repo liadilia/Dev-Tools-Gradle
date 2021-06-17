@@ -1,1 +1,2 @@
 Aplicatie care ofera posibilitatea automatizarii unor taskuri de implementare prin integrare cu Jira ca sistem de ticketing, o aplicatie de management al localizarii si prin generare de cod intr-un proiect de implementare.
+ <!-- Plugin description --> Offers the possibility to integrate with Jira and an additional localization tool and to generate code for speeding up development processes. <!-- Plugin description end -->
