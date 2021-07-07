@@ -17,6 +17,6 @@ public interface RestEndpoints {
     // methods
     String methodPOST = "POST";
     String methodPUT = "PUT";
-
+    String token = "i9At0tY9UOY387P2H7NNDDEE";
 
 }
