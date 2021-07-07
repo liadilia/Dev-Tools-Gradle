@@ -22,7 +22,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="lia123"/>
+        </properties>
       </component>
       <component id="7998b" class="javax.swing.JTextField" binding="textField1" default-binding="true">
         <constraints>
@@ -30,7 +32,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="lia"/>
+        </properties>
       </component>
       <component id="a20d7" class="javax.swing.JLabel">
         <constraints>
