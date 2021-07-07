@@ -13,7 +13,6 @@ public class LoginForm extends Component {
     private JPanel panel;
     private JTextField textField1;
     private JPasswordField passwordField1;
-    private JButton cancelButton;
 
 
     public LoginForm() throws ClassNotFoundException {
@@ -40,6 +39,7 @@ public class LoginForm extends Component {
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 }
+                f.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Incorrect username or password", "Login Error!", JOptionPane.ERROR_MESSAGE);
                 textField1.setText("");

@@ -16,8 +16,7 @@ public class Administration {
     private JTextField jiraProject;
     private JTextField jiraSubTaskId;
     private JButton saveButton;
-    private JButton restoreButton;
-    private JButton backButton;
+    private JButton cancelButton;
 
     public Administration() throws ClassNotFoundException {
 
@@ -44,6 +43,16 @@ public class Administration {
             ConfigStringsDAO.update(RestEndpoints.JiraProject, jiraProject.getText());
             ConfigStringsDAO.update(RestEndpoints.propadminAuth, localizationAuth.getText());
             ConfigStringsDAO.update(RestEndpoints.propadminCreateBundleEndpoint, localizationBundleEndpoint.getText());
+        });
+
+        cancelButton.addActionListener(e -> {
+            try {
+                LoginForm lf = new LoginForm();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+
+            }
+            f.dispose();
         });
 
     }
