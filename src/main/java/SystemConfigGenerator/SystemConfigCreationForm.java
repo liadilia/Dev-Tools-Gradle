@@ -58,7 +58,9 @@ public class SystemConfigCreationForm {
             addSectionButton.setEnabled(true);
         });
         deleteSelectedOptionsButton.addActionListener(e -> {
+            options.remove(optionList.getSelectedIndex());
             model.removeElementAt(optionList.getSelectedIndex());
+
             if (optionList.getModel().getSize() == 0)
                 addSectionButton.setEnabled(false);
         });
