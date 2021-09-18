@@ -9,8 +9,8 @@ public class DBConnection {
         Connection con = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //  con=DriverManager.getConnection("jdbc:mysql://localhost:3306/habittracker?useSSl=false","root","P@ssword55");
-            con = DriverManager.getConnection("jdbc:mysql://hosting2160545.online.pro/00490502_lgdb?useSSL=false", "00490502_lgdb", "00490502_lgdb");
+          
+            con = DriverManager.getConnection("", "", "");
 
         } catch (Exception e) {
             System.out.println(e);
