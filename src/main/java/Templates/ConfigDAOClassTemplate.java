@@ -10,7 +10,7 @@ public class ConfigDAOClassTemplate {
     public static String fillTemplate(String category, List<ConfigOption> options) {
         StringBuilder sb = new StringBuilder();
         String className = category + "ConfigDAOImpl";
-        sb.append("package de.imc.clix.core.configuration.");
+        sb.append("package configuration.");
         sb.append(category.toLowerCase(Locale.ROOT));
         sb.append(";");
         sb.append("\n\n");
