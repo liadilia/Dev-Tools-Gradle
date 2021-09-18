@@ -9,7 +9,7 @@ public class BaseClassTemplate {
 
     public static String fillTemplate(String category, List<ConfigOption> options) {
         StringBuilder sb = new StringBuilder();
-        sb.append("package de.imc.clix.core.configuration.");
+        sb.append("package configuration.");
         sb.append(category.toLowerCase(Locale.ROOT));
         sb.append(";\n");
         sb.append("public class ");
