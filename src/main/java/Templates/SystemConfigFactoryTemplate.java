@@ -6,7 +6,7 @@ public class SystemConfigFactoryTemplate {
 
     public static String fillTemplate(String category, String factoryClassName) {
         StringBuilder sb = new StringBuilder();
-        sb.append("package de.imc.clix.core.configuration.");
+        sb.append("package configuration.");
         sb.append(category.toLowerCase(Locale.ROOT));
         sb.append(";\n");
         sb.append("import de.imc.clix.core.configuration.ConfigDAO;");
